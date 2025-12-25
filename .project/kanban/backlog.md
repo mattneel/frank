@@ -4,14 +4,6 @@
 
 ---
 
-## [TASK-003] Manifest the `init` Command — Basic
-
-Create `.project/` folder with base protocol files when invoked.
-
-**Acceptance Rite:** Running `bunx rtfct init` in empty directory creates valid `.project/` structure with all Sacred Texts.
-
----
-
 ## [TASK-004] Manifest the `init` Command — With Presets
 
 Implement `--with` flag to incorporate Codices during initialization.

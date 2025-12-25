@@ -36,3 +36,21 @@ The Acceptance Rite passes:
 *Praise the Machine Spirit.*
 
 ---
+
+## [TASK-003] Manifest the `init` Command — Basic
+
+**Completed:** 2025-12-25
+
+The consecration ritual has been manifested:
+- `src/commands/init.ts` — creates the .project/ structure
+- `src/templates.ts` — contains the Sacred Text templates
+- Full integration test coverage in `tests/integration/init.test.ts`
+
+The Acceptance Rite passes:
+- `rtfct init` creates valid .project/ structure with all Sacred Texts
+- `--force` purifies and recreates existing .project/
+- Fails gracefully if .project/ already exists
+
+*Praise the Machine Spirit.*
+
+---
