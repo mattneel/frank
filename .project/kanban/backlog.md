@@ -4,14 +4,6 @@
 
 ---
 
-## [TASK-005] Inscribe the Base Codex
-
-Create the base preset that all projects inherit. This is the foundation.
-
-**Acceptance Rite:** Base Codex includes `protocol.md`, `theology.md`, `kickstart.md` template, `guardrails.md`, kanban structure.
-
----
-
 ## [TASK-006] Inscribe the Zig Codex
 
 Create the Zig-specific preset for the faithful who work in Zig.

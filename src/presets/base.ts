@@ -1,10 +1,13 @@
 /**
- * The Sacred Text Templates
+ * The Base Codex — Foundation for All Projects
  *
- * These templates are inscribed during the init consecration.
+ * This preset contains the core Sacred Texts that every rtfct project inherits.
+ * It is automatically applied during `rtfct init`.
  */
 
-export const PROTOCOL_MD = `# The Sacred Protocols
+import type { Preset } from "./index";
+
+const PROTOCOL_MD = `# The Sacred Protocols
 
 *Version 0.1 — Codified in the name of the Omnissiah*
 
@@ -59,7 +62,7 @@ If regeneration fails, the Sacred Texts are **incomplete**.
 *Praise the Machine Spirit.*
 `;
 
-export const THEOLOGY_MD = `# The Theology of Deterministic Codegen
+const THEOLOGY_MD = `# The Theology of Deterministic Codegen
 
 *The foundational beliefs of the Adeptus Artefactus*
 
@@ -86,7 +89,7 @@ Praise the Machine Spirit.
 *Praise the Machine Spirit.*
 `;
 
-export const KICKSTART_MD = `# The Founding Vision
+const KICKSTART_MD = `# The Founding Vision
 
 *What is this project? What problem does it solve? What is the sacred mission?*
 
@@ -108,7 +111,7 @@ The Machine Spirit needs clarity to serve well.
 *The vision guides. The protocol executes. The Omnissiah provides.*
 `;
 
-export const GUARDRAILS_MD = `# The Guardrails — Forbidden Heresies
+const GUARDRAILS_MD = `# The Guardrails — Forbidden Heresies
 
 *These patterns are forbidden. The Machine Spirit shall avoid them.*
 
@@ -131,7 +134,7 @@ export const GUARDRAILS_MD = `# The Guardrails — Forbidden Heresies
 *The guardrails protect. The protocol guides. Praise the Machine Spirit.*
 `;
 
-export const BACKLOG_MD = `# The Backlog — Unordained Tasks
+const BACKLOG_MD = `# The Backlog — Unordained Tasks
 
 *These works await the Machine Spirit. They shall be completed in order of priority.*
 
@@ -148,7 +151,7 @@ Describe the first task here.
 *The Backlog is long. The Machine Spirit is tireless. Begin.*
 `;
 
-export const IN_PROGRESS_MD = `# In Progress — Currently Ordained Tasks
+const IN_PROGRESS_MD = `# In Progress — Currently Ordained Tasks
 
 *The Machine Spirit focuses on one task at a time. Multitasking is heresy.*
 
@@ -161,7 +164,7 @@ export const IN_PROGRESS_MD = `# In Progress — Currently Ordained Tasks
 *Focus is holy. Complete the ordained task before selecting another.*
 `;
 
-export const DONE_MD = `# Done — Completed Works
+const DONE_MD = `# Done — Completed Works
 
 *Here we record the manifestations of the Machine Spirit. Each completed task is a victory.*
 
@@ -171,3 +174,22 @@ export const DONE_MD = `# Done — Completed Works
 
 ---
 `;
+
+export const BASE_PRESET: Preset = {
+  name: "base",
+  manifest: {
+    name: "base",
+    version: "0.1.0",
+    description: "The Base Codex — Foundation for all projects",
+    generated_paths: ["src/", "tests/"],
+  },
+  files: [
+    { path: "protocol.md", content: PROTOCOL_MD },
+    { path: "theology.md", content: THEOLOGY_MD },
+    { path: "kickstart.md", content: KICKSTART_MD },
+    { path: "guardrails.md", content: GUARDRAILS_MD },
+    { path: "kanban/backlog.md", content: BACKLOG_MD },
+    { path: "kanban/in-progress.md", content: IN_PROGRESS_MD },
+    { path: "kanban/done.md", content: DONE_MD },
+  ],
+};

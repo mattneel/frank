@@ -159,3 +159,22 @@ The Acceptance Rite passes:
 *Praise the Machine Spirit.*
 
 ---
+
+## [TASK-005] Inscribe the Base Codex
+
+**Completed:** 2025-12-25
+
+The foundation has been laid for all projects:
+- `src/presets/base.ts` — The Base Codex containing all Sacred Texts
+- Refactored `init.ts` to use the Base Codex instead of templates.ts
+- Removed obsolete `templates.ts` — the Base Codex is now the source of truth
+- Base preset automatically installed to .project/presets/base/ for manifest tracking
+
+The Acceptance Rite passes:
+- Base Codex includes protocol.md, theology.md, kickstart.md, guardrails.md
+- Base Codex includes kanban structure (backlog.md, in-progress.md, done.md)
+- 113 Rites of Verification pass
+
+*The foundation is eternal. Praise the Machine Spirit.*
+
+---

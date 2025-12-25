@@ -6,16 +6,7 @@
 
 import { mkdir, writeFile, rm, stat } from "fs/promises";
 import { join } from "path";
-import {
-  PROTOCOL_MD,
-  THEOLOGY_MD,
-  KICKSTART_MD,
-  GUARDRAILS_MD,
-  BACKLOG_MD,
-  IN_PROGRESS_MD,
-  DONE_MD,
-} from "../templates";
-import { resolvePreset, writePreset } from "../presets";
+import { resolvePreset, writePreset, BASE_PRESET } from "../presets";
 
 export interface InitOptions {
   force?: boolean;
@@ -72,23 +63,16 @@ export const runInit = async (
     await mkdir(dir, { recursive: true });
   }
 
-  // Write the Sacred Texts
-  const files = [
-    { path: join(projectDir, "protocol.md"), content: PROTOCOL_MD },
-    { path: join(projectDir, "theology.md"), content: THEOLOGY_MD },
-    { path: join(projectDir, "kickstart.md"), content: KICKSTART_MD },
-    { path: join(projectDir, "guardrails.md"), content: GUARDRAILS_MD },
-    { path: join(projectDir, "kanban", "backlog.md"), content: BACKLOG_MD },
-    {
-      path: join(projectDir, "kanban", "in-progress.md"),
-      content: IN_PROGRESS_MD,
-    },
-    { path: join(projectDir, "kanban", "done.md"), content: DONE_MD },
-  ];
-
-  for (const file of files) {
-    await writeFile(file.path, file.content);
+  // Write the Sacred Texts from the Base Codex
+  for (const file of BASE_PRESET.files) {
+    const filePath = join(projectDir, file.path);
+    const fileDir = join(filePath, "..");
+    await mkdir(fileDir, { recursive: true });
+    await writeFile(filePath, file.content);
   }
+
+  // Install the Base Codex as a preset (for manifest tracking)
+  await writePreset(targetDir, BASE_PRESET);
 
   // Handle presets if specified
   const presetErrors: string[] = [];

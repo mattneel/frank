@@ -9,12 +9,21 @@ import {
   resolvePreset,
   writePreset,
   isPresetInstalled,
+  BASE_PRESET,
 } from "../../src/presets";
 import { ZIG_PRESET } from "../../src/presets/zig";
 import { TYPESCRIPT_PRESET } from "../../src/presets/typescript";
 import { ELIXIR_PRESET } from "../../src/presets/elixir";
 
 describe("resolvePreset", () => {
+  test("resolves base preset", () => {
+    const result = resolvePreset("base");
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.preset.name).toBe("base");
+    }
+  });
+
   test("resolves zig preset", () => {
     const result = resolvePreset("zig");
     expect(result.success).toBe(true);
@@ -130,6 +139,25 @@ describe("isPresetInstalled", () => {
 });
 
 describe("preset content", () => {
+  test("base preset has all Sacred Text files", () => {
+    expect(BASE_PRESET.files.length).toBeGreaterThan(0);
+    const paths = BASE_PRESET.files.map((f) => f.path);
+    expect(paths).toContain("protocol.md");
+    expect(paths).toContain("theology.md");
+    expect(paths).toContain("kickstart.md");
+    expect(paths).toContain("guardrails.md");
+    expect(paths).toContain("kanban/backlog.md");
+    expect(paths).toContain("kanban/in-progress.md");
+    expect(paths).toContain("kanban/done.md");
+  });
+
+  test("base preset has correct manifest", () => {
+    expect(BASE_PRESET.manifest.name).toBe("base");
+    expect(BASE_PRESET.manifest.version).toBe("0.1.0");
+    expect(BASE_PRESET.manifest.generated_paths).toContain("src/");
+    expect(BASE_PRESET.manifest.generated_paths).toContain("tests/");
+  });
+
   test("zig preset has required files", () => {
     expect(ZIG_PRESET.files.length).toBeGreaterThan(0);
     const paths = ZIG_PRESET.files.map((f) => f.path);
@@ -152,6 +180,7 @@ describe("preset content", () => {
   });
 
   test("all presets have generated_paths", () => {
+    expect(BASE_PRESET.manifest.generated_paths.length).toBeGreaterThan(0);
     expect(ZIG_PRESET.manifest.generated_paths.length).toBeGreaterThan(0);
     expect(TYPESCRIPT_PRESET.manifest.generated_paths.length).toBeGreaterThan(
       0

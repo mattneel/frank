@@ -7,6 +7,7 @@
 import { mkdir, writeFile } from "fs/promises";
 import { join } from "path";
 
+import { BASE_PRESET } from "./base";
 import { ZIG_PRESET } from "./zig";
 import { TYPESCRIPT_PRESET } from "./typescript";
 import { ELIXIR_PRESET } from "./elixir";
@@ -32,13 +33,17 @@ export type ResolveResult =
   | { success: true; preset: Preset }
   | { success: false; error: string };
 
-type BuiltInPresetName = "zig" | "typescript" | "elixir";
+type BuiltInPresetName = "base" | "zig" | "typescript" | "elixir";
 
 const BUILT_IN_PRESETS: Record<BuiltInPresetName, Preset> = {
+  base: BASE_PRESET,
   zig: ZIG_PRESET,
   typescript: TYPESCRIPT_PRESET,
   elixir: ELIXIR_PRESET,
 };
+
+// Re-export base preset for direct use by init command
+export { BASE_PRESET } from "./base";
 
 /**
  * Resolve a preset name to a Preset object.
@@ -72,7 +77,7 @@ export const resolvePreset = (name: string): ResolveResult => {
 
   return {
     success: false,
-    error: `Unknown preset: ${name}. Available: zig, typescript, elixir`,
+    error: `Unknown preset: ${name}. Available: base, zig, typescript, elixir`,
   };
 };
 
