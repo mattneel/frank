@@ -4,14 +4,6 @@
 
 ---
 
-## [TASK-006] Inscribe the Zig Codex
-
-Create the Zig-specific preset for the faithful who work in Zig.
-
-**Acceptance Rite:** Zig Codex includes testing strategy (`zig build test`), guardrails for allocators and comptime, `build.zig` patterns.
-
----
-
 ## [TASK-007] Inscribe the TypeScript Codex
 
 Create the TypeScript preset.

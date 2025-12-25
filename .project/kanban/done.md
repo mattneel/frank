@@ -178,3 +178,22 @@ The Acceptance Rite passes:
 *The foundation is eternal. Praise the Machine Spirit.*
 
 ---
+
+## [TASK-006] Inscribe the Zig Codex
+
+**Completed:** 2025-12-25
+
+The Zig Codex has been enhanced for the faithful:
+- `testing/strategy.md` — Comprehensive testing with `zig build test`, allocator testing, comptime testing
+- `guardrails.md` — Memory heresies, allocator wisdom, comptime heresies, error handling
+- `design/patterns.md` — build.zig patterns: minimal, library, dependencies, cross-compilation, C interop
+
+The Acceptance Rite passes:
+- Testing strategy includes `zig build test`
+- Guardrails cover allocators and comptime
+- Build.zig patterns documented
+- 115 Rites of Verification pass
+
+*The Zig faithful are guided. Praise the Machine Spirit.*
+
+---

@@ -163,6 +163,16 @@ describe("preset content", () => {
     const paths = ZIG_PRESET.files.map((f) => f.path);
     expect(paths).toContain("testing/strategy.md");
     expect(paths).toContain("guardrails.md");
+    expect(paths).toContain("design/patterns.md");
+  });
+
+  test("zig preset has build.zig in generated_paths", () => {
+    expect(ZIG_PRESET.manifest.generated_paths).toContain("build.zig");
+    expect(ZIG_PRESET.manifest.generated_paths).toContain("build.zig.zon");
+  });
+
+  test("zig preset depends on base", () => {
+    expect(ZIG_PRESET.manifest.depends).toContain("base");
   });
 
   test("typescript preset has required files", () => {
