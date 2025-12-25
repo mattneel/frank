@@ -180,6 +180,15 @@ describe("preset content", () => {
     const paths = TYPESCRIPT_PRESET.files.map((f) => f.path);
     expect(paths).toContain("testing/strategy.md");
     expect(paths).toContain("guardrails.md");
+    expect(paths).toContain("design/patterns.md");
+  });
+
+  test("typescript preset has dist in generated_paths", () => {
+    expect(TYPESCRIPT_PRESET.manifest.generated_paths).toContain("dist/");
+  });
+
+  test("typescript preset depends on base", () => {
+    expect(TYPESCRIPT_PRESET.manifest.depends).toContain("base");
   });
 
   test("elixir preset has required files", () => {

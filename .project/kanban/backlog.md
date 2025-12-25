@@ -4,14 +4,6 @@
 
 ---
 
-## [TASK-007] Inscribe the TypeScript Codex
-
-Create the TypeScript preset.
-
-**Acceptance Rite:** TypeScript Codex includes testing strategy (vitest), tsconfig patterns, type guardrails.
-
----
-
 ## [TASK-008] Manifest GitHub Preset Resolution
 
 Enable fetching Codices from GitHub repositories.

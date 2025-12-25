@@ -197,3 +197,22 @@ The Acceptance Rite passes:
 *The Zig faithful are guided. Praise the Machine Spirit.*
 
 ---
+
+## [TASK-007] Inscribe the TypeScript Codex
+
+**Completed:** 2025-12-25
+
+The TypeScript Codex has been enhanced for the faithful:
+- `testing/strategy.md` — Vitest patterns, mocking, async testing, type testing, configuration
+- `guardrails.md` — Type heresies (any, assertions, non-null), async heresies, import heresies
+- `design/patterns.md` — tsconfig patterns: strict base, Node.js, library, React, monorepo
+
+The Acceptance Rite passes:
+- Testing strategy includes vitest
+- tsconfig patterns documented
+- Type guardrails comprehensive
+- 117 Rites of Verification pass
+
+*The TypeScript faithful are guided. Praise the Machine Spirit.*
+
+---
