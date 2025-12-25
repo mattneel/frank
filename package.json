@@ -1,0 +1,31 @@
+{
+  "name": "rtfct",
+  "version": "0.1.0",
+  "description": "Markdown-driven development. The spec is the source of truth. Code is a regenerable artefact.",
+  "type": "module",
+  "bin": {
+    "rtfct": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "bun build ./src/index.ts --outdir ./dist --target node",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattneel/rtfct.git"
+  },
+  "keywords": [
+    "cli",
+    "markdown",
+    "tdd",
+    "codegen",
+    "specification"
+  ],
+  "author": "mattneel",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
+  }
+}

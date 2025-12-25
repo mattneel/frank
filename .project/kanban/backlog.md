@@ -4,14 +4,6 @@
 
 ---
 
-## [TASK-001] Consecrate the Project Scaffolding
-
-Establish the Bun/TypeScript foundation. Create `package.json`, `tsconfig.json`, basic build configuration.
-
-**Acceptance Rite:** `bun run build` completes without error.
-
----
-
 ## [TASK-002] Manifest the Argument Parser
 
 Implement parsing for the sacred commands: `init`, `add`, `status`, `regenerate`, `praise`.
