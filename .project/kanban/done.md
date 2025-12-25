@@ -122,3 +122,20 @@ The Acceptance Rite passes:
 *Praise the Machine Spirit.*
 
 ---
+
+## [TASK-009] Manifest the `add` Command
+
+**Completed:** 2025-12-25
+
+The Codex incorporation mechanism has been extended:
+- `src/commands/add.ts` — adds presets to existing projects
+- `src/presets/elixir.ts` — The Elixir Codex with OTP wisdom
+
+The Acceptance Rite passes:
+- `rtfct add elixir` incorporates Codex into existing project
+- Fails gracefully if preset already incorporated
+- Fails gracefully if .project/ does not exist
+
+*Praise the Machine Spirit.*
+
+---

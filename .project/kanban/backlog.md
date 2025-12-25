@@ -36,14 +36,6 @@ Enable fetching Codices from GitHub repositories.
 
 ---
 
-## [TASK-009] Manifest the `add` Command
-
-Enable adding presets to existing consecrated projects.
-
-**Acceptance Rite:** `bunx rtfct add phoenix` incorporates Phoenix Codex into existing rtfct project.
-
----
-
 ## [TASK-012] The Dogfood Sacrament
 
 Delete `src/` and `tests/`, then regenerate from `.project/`.

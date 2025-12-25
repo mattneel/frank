@@ -6,6 +6,7 @@ import { mkdir } from "fs/promises";
 import { join } from "path";
 import { zigCodex } from "./zig";
 import { typescriptCodex } from "./typescript";
+import { elixirCodex } from "./elixir";
 
 export interface PresetFile {
   path: string;
@@ -17,11 +18,12 @@ export interface Preset {
   files: PresetFile[];
 }
 
-type BuiltInPresetName = "zig" | "typescript";
+type BuiltInPresetName = "zig" | "typescript" | "elixir";
 
 const BUILT_IN_PRESETS: Record<BuiltInPresetName, () => Preset> = {
   zig: zigCodex,
   typescript: typescriptCodex,
+  elixir: elixirCodex,
 };
 
 const isBuiltInPreset = (name: string): name is BuiltInPresetName => {

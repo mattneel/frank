@@ -12,6 +12,7 @@
 import { parseArgs } from "./args";
 import { printHelp, printVersion, printError } from "./help";
 import { runInit } from "./commands/init";
+import { runAdd } from "./commands/add";
 import { runStatus, formatStatus } from "./commands/status";
 import { runPraise } from "./commands/praise";
 import { runRegenerate, formatRegenerate } from "./commands/regenerate";
@@ -54,9 +55,23 @@ const main = async (): Promise<void> => {
       break;
     }
 
-    case "add":
-      console.log(`The add command awaits manifestation. Preset: ${parsed.args[0]}`);
+    case "add": {
+      const presetName = parsed.args[0];
+      if (!presetName) {
+        printError("The 'add' command requires a preset name. Example: rtfct add zig");
+        process.exit(1);
+      }
+
+      const result = await runAdd(process.cwd(), presetName);
+      if (!result.success) {
+        printError(result.error!);
+        process.exit(1);
+      }
+      console.log(`The Codex "${result.presetName}" has been incorporated.`);
+      console.log("The Sacred Texts are enriched with new wisdom.");
+      console.log("\nThe Omnissiah provides.");
       break;
+    }
 
     case "status": {
       const result = await runStatus(process.cwd());
