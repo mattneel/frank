@@ -1,63 +1,78 @@
 /**
- * The add Command — Incorporation of Codices into Existing Projects
+ * The Add Command — Incorporate a Codex into an Existing Project
+ *
+ * Adds a preset to an already consecrated project.
  */
 
-import { access } from "fs/promises";
+import { stat } from "fs/promises";
 import { join } from "path";
-import { resolvePreset, writePreset } from "../presets";
+import { resolvePreset, writePreset, isPresetInstalled } from "../presets";
 
 export interface AddResult {
   success: boolean;
-  error?: string;
-  presetName?: string;
+  message: string;
 }
 
-const exists = async (path: string): Promise<boolean> => {
-  try {
-    await access(path);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
+/**
+ * Run the add command to incorporate a preset.
+ */
 export const runAdd = async (
-  cwd: string,
+  targetDir: string,
   presetName: string
 ): Promise<AddResult> => {
-  const projectDir = join(cwd, ".project");
+  const projectDir = join(targetDir, ".project");
 
   // Check if .project/ exists
-  if (!(await exists(projectDir))) {
+  try {
+    const stats = await stat(projectDir);
+    if (!stats.isDirectory()) {
+      return {
+        success: false,
+        message:
+          "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
+      };
+    }
+  } catch {
     return {
       success: false,
-      error: "No .project/ found. This directory has not been consecrated. Run 'rtfct init' first.",
-    };
-  }
-
-  // Check if preset is already incorporated
-  const presetDir = join(projectDir, "presets", presetName);
-  if (await exists(presetDir)) {
-    return {
-      success: false,
-      error: `The Codex "${presetName}" is already incorporated. Each Codex may only be added once.`,
+      message:
+        "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
     };
   }
 
   // Resolve the preset
-  const resolved = resolvePreset(presetName);
-  if (resolved.error) {
+  const result = resolvePreset(presetName);
+  if (!result.success) {
     return {
       success: false,
-      error: resolved.error,
+      message: result.error,
+    };
+  }
+
+  // Check if already installed
+  if (await isPresetInstalled(targetDir, result.preset.name)) {
+    return {
+      success: false,
+      message: `Preset '${presetName}' is already incorporated into this project.`,
     };
   }
 
   // Write the preset
-  await writePreset(cwd, resolved.preset!);
+  await writePreset(targetDir, result.preset);
 
   return {
     success: true,
-    presetName,
+    message: `Codex '${presetName}' has been incorporated.`,
   };
+};
+
+/**
+ * Format the add result for CLI output.
+ */
+export const formatAdd = (result: AddResult): string => {
+  if (result.success) {
+    return `✓ ${result.message}\n\nThe Omnissiah provides.`;
+  } else {
+    return `✗ ${result.message}`;
+  }
 };

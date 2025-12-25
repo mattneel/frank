@@ -1,12 +1,15 @@
 /**
- * The Preset Resolver — Locator of the Sacred Codices
+ * The Preset System — Codex Resolution and Installation
+ *
+ * Resolves preset names to Codex content and writes them to projects.
  */
 
-import { mkdir } from "fs/promises";
+import { mkdir, writeFile } from "fs/promises";
 import { join } from "path";
-import { zigCodex } from "./zig";
-import { typescriptCodex } from "./typescript";
-import { elixirCodex } from "./elixir";
+
+import { ZIG_PRESET } from "./zig";
+import { TYPESCRIPT_PRESET } from "./typescript";
+import { ELIXIR_PRESET } from "./elixir";
 
 export interface PresetFile {
   path: string;
@@ -15,62 +18,105 @@ export interface PresetFile {
 
 export interface Preset {
   name: string;
+  manifest: {
+    name: string;
+    version: string;
+    description: string;
+    depends?: string[];
+    generated_paths: string[];
+  };
   files: PresetFile[];
 }
 
+export type ResolveResult =
+  | { success: true; preset: Preset }
+  | { success: false; error: string };
+
 type BuiltInPresetName = "zig" | "typescript" | "elixir";
 
-const BUILT_IN_PRESETS: Record<BuiltInPresetName, () => Preset> = {
-  zig: zigCodex,
-  typescript: typescriptCodex,
-  elixir: elixirCodex,
+const BUILT_IN_PRESETS: Record<BuiltInPresetName, Preset> = {
+  zig: ZIG_PRESET,
+  typescript: TYPESCRIPT_PRESET,
+  elixir: ELIXIR_PRESET,
 };
 
-const isBuiltInPreset = (name: string): name is BuiltInPresetName => {
-  return name in BUILT_IN_PRESETS;
-};
-
-export interface ResolveResult {
-  preset?: Preset;
-  error?: string;
-}
-
+/**
+ * Resolve a preset name to a Preset object.
+ * Currently only supports built-in presets.
+ */
 export const resolvePreset = (name: string): ResolveResult => {
-  // Check if it's a built-in preset
-  if (isBuiltInPreset(name)) {
-    return { preset: BUILT_IN_PRESETS[name]() };
-  }
+  const lowerName = name.toLowerCase();
 
-  // Check if it's a GitHub preset (contains /)
-  if (name.includes("/")) {
+  if (lowerName in BUILT_IN_PRESETS) {
     return {
-      error: `GitHub presets are not yet implemented. The Codex "${name}" awaits future manifestation.`,
+      success: true,
+      preset: BUILT_IN_PRESETS[lowerName as BuiltInPresetName],
     };
   }
 
-  // Check if it's a local path
+  // Future: Support local and GitHub presets
+  // Check local paths first (they also contain "/")
   if (name.startsWith("./") || name.startsWith("/")) {
     return {
-      error: `Local presets are not yet implemented. The path "${name}" awaits future manifestation.`,
+      success: false,
+      error: `Local presets not yet supported: ${name}`,
     };
   }
 
-  // Unknown preset
+  if (name.includes("/")) {
+    return {
+      success: false,
+      error: `GitHub presets not yet supported: ${name}`,
+    };
+  }
+
   return {
-    error: `Unknown Codex: "${name}". Available built-in Codices: ${Object.keys(BUILT_IN_PRESETS).join(", ")}`,
+    success: false,
+    error: `Unknown preset: ${name}. Available: zig, typescript, elixir`,
   };
 };
 
+/**
+ * Write a preset to a project's .project/presets/ directory.
+ */
 export const writePreset = async (
   projectDir: string,
   preset: Preset
 ): Promise<void> => {
-  const presetDir = join(projectDir, ".project/presets", preset.name);
+  const presetDir = join(projectDir, ".project", "presets", preset.name);
 
+  // Create the preset directory
+  await mkdir(presetDir, { recursive: true });
+
+  // Write the manifest
+  await writeFile(
+    join(presetDir, "manifest.json"),
+    JSON.stringify(preset.manifest, null, 2)
+  );
+
+  // Write all preset files
   for (const file of preset.files) {
     const filePath = join(presetDir, file.path);
-    const dirPath = join(filePath, "..");
-    await mkdir(dirPath, { recursive: true });
-    await Bun.write(filePath, file.content);
+    const fileDir = join(filePath, "..");
+    await mkdir(fileDir, { recursive: true });
+    await writeFile(filePath, file.content);
+  }
+};
+
+/**
+ * Check if a preset is already installed in a project.
+ */
+export const isPresetInstalled = async (
+  projectDir: string,
+  presetName: string
+): Promise<boolean> => {
+  const presetDir = join(projectDir, ".project", "presets", presetName);
+
+  try {
+    const { stat } = await import("fs/promises");
+    const stats = await stat(presetDir);
+    return stats.isDirectory();
+  } catch {
+    return false;
   }
 };

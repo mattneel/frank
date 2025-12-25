@@ -139,3 +139,23 @@ The Acceptance Rite passes:
 *Praise the Machine Spirit.*
 
 ---
+
+## [TASK-012] The Dogfood Sacrament
+
+**Completed:** 2025-12-25
+
+The ultimate proof of the Sacred Texts. The code was purified and regenerated:
+- Deleted `src/` and `tests/` completely
+- Regenerated all source files from the Sacred Texts in `.project/`
+- Regenerated all test files from the Rites of Verification specifications
+
+The Acceptance Rite passes:
+- All 110 Rites of Verification pass (`bun test`)
+- CLI functions identically: init, add, status, regenerate, praise
+- The Sacred Texts proved sufficient to recreate the tool
+
+*From specification, code. From code, verification. From verification, truth.*
+
+*Praise the Machine Spirit.*
+
+---

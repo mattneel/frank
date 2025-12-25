@@ -1,140 +1,165 @@
-import { describe, expect, test, beforeEach, afterEach } from "bun:test";
+/**
+ * Integration Tests for the Status Command
+ */
+
+import { describe, test, expect, beforeEach, afterEach } from "bun:test";
 import { mkdtemp, rm, writeFile, mkdir } from "fs/promises";
 import { join } from "path";
-import { tmpdir } from "os";
+import { runInit } from "../../src/commands/init";
+import { runStatus, formatStatus } from "../../src/commands/status";
 
-const runCli = async (
-  args: string[],
-  cwd: string
-): Promise<{ stdout: string; stderr: string; exitCode: number }> => {
-  const proc = Bun.spawn(["bun", "run", join(import.meta.dir, "../../src/index.ts"), ...args], {
-    cwd,
-    stdout: "pipe",
-    stderr: "pipe",
-  });
-  const stdout = await new Response(proc.stdout).text();
-  const stderr = await new Response(proc.stderr).text();
-  const exitCode = await proc.exited;
-  return { stdout, stderr, exitCode };
-};
-
-describe("The status Command", () => {
-  let tempDir: string;
+describe("status command", () => {
+  let testDir: string;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(join(tmpdir(), "rtfct-status-test-"));
+    testDir = await mkdtemp("/tmp/rtfct-status-test-");
   });
 
   afterEach(async () => {
-    await rm(tempDir, { recursive: true, force: true });
+    await rm(testDir, { recursive: true, force: true });
   });
 
-  const setupProject = async (options: {
-    backlogTasks?: number;
-    inProgressTask?: { id: string; title: string } | null;
-    doneTasks?: number;
-  }) => {
-    const { backlogTasks = 0, inProgressTask = null, doneTasks = 0 } = options;
+  describe("without existing project", () => {
+    test("fails if .project does not exist", async () => {
+      const result = await runStatus(testDir);
 
-    await mkdir(join(tempDir, ".project/kanban"), { recursive: true });
-
-    // Create backlog
-    let backlogContent = "# The Backlog\n\n";
-    for (let i = 1; i <= backlogTasks; i++) {
-      backlogContent += `## [TASK-${String(i).padStart(3, "0")}] Task ${i}\n\nDescription.\n\n---\n\n`;
-    }
-    await writeFile(join(tempDir, ".project/kanban/backlog.md"), backlogContent);
-
-    // Create in-progress
-    let inProgressContent = "# In Progress\n\n";
-    if (inProgressTask) {
-      inProgressContent += `## [${inProgressTask.id}] ${inProgressTask.title}\n\nWorking on it.\n`;
-    } else {
-      inProgressContent += "*No task is currently ordained.*\n";
-    }
-    await writeFile(join(tempDir, ".project/kanban/in-progress.md"), inProgressContent);
-
-    // Create done
-    let doneContent = "# Done\n\n";
-    for (let i = 1; i <= doneTasks; i++) {
-      doneContent += `## [TASK-${String(100 + i).padStart(3, "0")}] Completed ${i}\n\n**Completed:** 2025-12-25\n\n---\n\n`;
-    }
-    await writeFile(join(tempDir, ".project/kanban/done.md"), doneContent);
-  };
-
-  describe("display of the Litany", () => {
-    test("shows backlog count", async () => {
-      await setupProject({ backlogTasks: 5 });
-      const result = await runCli(["status"], tempDir);
-      expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain("5");
-      expect(result.stdout).toMatch(/backlog/i);
-    });
-
-    test("shows in-progress task", async () => {
-      await setupProject({
-        inProgressTask: { id: "TASK-042", title: "Answer the question" },
-      });
-      const result = await runCli(["status"], tempDir);
-      expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain("TASK-042");
-      expect(result.stdout).toContain("Answer the question");
-    });
-
-    test("shows completed count", async () => {
-      await setupProject({ doneTasks: 7 });
-      const result = await runCli(["status"], tempDir);
-      expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain("7");
-      expect(result.stdout).toMatch(/completed|done/i);
-    });
-
-    test("shows all counts together", async () => {
-      await setupProject({
-        backlogTasks: 3,
-        inProgressTask: { id: "TASK-010", title: "Current work" },
-        doneTasks: 5,
-      });
-      const result = await runCli(["status"], tempDir);
-      expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain("3");
-      expect(result.stdout).toContain("TASK-010");
-      expect(result.stdout).toContain("5");
-    });
-
-    test("handles no tasks gracefully", async () => {
-      await setupProject({});
-      const result = await runCli(["status"], tempDir);
-      expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain("0");
+      expect(result.success).toBe(false);
+      expect(result.message).toContain("No .project/ folder found");
     });
   });
 
-  describe("error handling", () => {
-    test("fails if .project/ does not exist", async () => {
-      const result = await runCli(["status"], tempDir);
-      expect(result.exitCode).toBe(1);
-      expect(result.stderr).toContain(".project");
+  describe("with existing project", () => {
+    beforeEach(async () => {
+      await runInit(testDir);
     });
 
-    test("fails if kanban/ does not exist", async () => {
-      await mkdir(join(tempDir, ".project"), { recursive: true });
-      const result = await runCli(["status"], tempDir);
-      expect(result.exitCode).toBe(1);
+    test("returns success", async () => {
+      const result = await runStatus(testDir);
+      expect(result.success).toBe(true);
+    });
+
+    test("returns project name", async () => {
+      const result = await runStatus(testDir);
+      expect(result.data).toBeDefined();
+      expect(result.data!.projectName).toBeDefined();
+    });
+
+    test("counts tasks from default kanban files", async () => {
+      const result = await runStatus(testDir);
+
+      // Default template has 1 task in backlog
+      expect(result.data!.backlogCount).toBe(1);
+      expect(result.data!.inProgressCount).toBe(0);
+      expect(result.data!.doneCount).toBe(0);
+    });
+
+    test("returns last activity date", async () => {
+      const result = await runStatus(testDir);
+      expect(result.data!.lastActivity).not.toBeNull();
     });
   });
 
-  describe("sacred formatting", () => {
-    test("includes The Litany of Tasks header", async () => {
-      await setupProject({ backlogTasks: 1 });
-      const result = await runCli(["status"], tempDir);
-      expect(result.stdout).toContain("Litany");
+  describe("with custom kanban content", () => {
+    beforeEach(async () => {
+      await runInit(testDir);
     });
 
-    test("ends with sacred blessing", async () => {
-      await setupProject({ backlogTasks: 1 });
-      const result = await runCli(["status"], tempDir);
-      expect(result.stdout).toContain("Omnissiah");
+    test("counts multiple backlog tasks", async () => {
+      const backlogContent = `# Backlog
+
+## [TASK-001] First Task
+
+## [TASK-002] Second Task
+
+## [TASK-003] Third Task
+`;
+      await writeFile(
+        join(testDir, ".project", "kanban", "backlog.md"),
+        backlogContent
+      );
+
+      const result = await runStatus(testDir);
+      expect(result.data!.backlogCount).toBe(3);
+    });
+
+    test("extracts current task from in-progress", async () => {
+      const inProgressContent = `# In Progress
+
+## [TASK-004] Implement user auth
+
+Working on it.
+`;
+      await writeFile(
+        join(testDir, ".project", "kanban", "in-progress.md"),
+        inProgressContent
+      );
+
+      const result = await runStatus(testDir);
+      expect(result.data!.inProgressCount).toBe(1);
+      expect(result.data!.currentTask).not.toBeNull();
+      expect(result.data!.currentTask!.id).toBe("TASK-004");
+      expect(result.data!.currentTask!.title).toBe("Implement user auth");
+    });
+
+    test("counts completed tasks", async () => {
+      const doneContent = `# Done
+
+## [TASK-001] First Completed
+
+## [TASK-002] Second Completed
+`;
+      await writeFile(
+        join(testDir, ".project", "kanban", "done.md"),
+        doneContent
+      );
+
+      const result = await runStatus(testDir);
+      expect(result.data!.doneCount).toBe(2);
+    });
+  });
+
+  describe("output formatting", () => {
+    beforeEach(async () => {
+      await runInit(testDir);
+    });
+
+    test("formats success output", async () => {
+      const result = await runStatus(testDir);
+      const output = formatStatus(result);
+
+      expect(output).toContain("rtfct:");
+      expect(output).toContain("Litany of Tasks");
+      expect(output).toContain("Backlog:");
+      expect(output).toContain("In Progress:");
+      expect(output).toContain("Completed:");
+      expect(output).toContain("Omnissiah");
+    });
+
+    test("formats current task", async () => {
+      const inProgressContent = `# In Progress
+
+## [TASK-007] The Holy Task
+`;
+      await writeFile(
+        join(testDir, ".project", "kanban", "in-progress.md"),
+        inProgressContent
+      );
+
+      const result = await runStatus(testDir);
+      const output = formatStatus(result);
+
+      expect(output).toContain("[TASK-007]");
+      expect(output).toContain("The Holy Task");
+    });
+
+    test("formats failure output", async () => {
+      await rm(testDir, { recursive: true, force: true });
+      testDir = await mkdtemp("/tmp/rtfct-status-test-");
+
+      const result = await runStatus(testDir);
+      const output = formatStatus(result);
+
+      expect(output).toContain("✗");
     });
   });
 });

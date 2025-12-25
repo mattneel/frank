@@ -4,11 +4,7 @@
 
 ---
 
-## [TASK-012] The Dogfood Sacrament
-
-Delete `src/` and `tests/`, then regenerate from `.project/`.
-
-**Acceptance Rite:** After regeneration, all Rites of Verification pass. CLI functions identically.
+*No task is currently ordained. Select from the Backlog.*
 
 ---
 

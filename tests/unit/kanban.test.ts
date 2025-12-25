@@ -1,125 +1,162 @@
-import { describe, expect, test } from "bun:test";
-import { parseKanbanFile, countTasks, extractCurrentTask } from "../../src/kanban";
+/**
+ * Unit Tests for the Kanban Parser
+ */
 
-describe("The Kanban Parser", () => {
-  describe("countTasks", () => {
-    test("counts tasks by ## [TASK-NNN] headers", () => {
-      const content = `# Backlog
+import { describe, test, expect } from "bun:test";
+import {
+  countTasks,
+  extractCurrentTask,
+  parseKanbanFile,
+  formatRelativeTime,
+} from "../../src/kanban";
 
-## [TASK-001] First task
-
-Description here.
-
----
-
-## [TASK-002] Second task
-
-Description here.
-
----
-
-## [TASK-003] Third task
-
-Description here.
-`;
-      expect(countTasks(content)).toBe(3);
-    });
-
-    test("returns 0 for empty file", () => {
-      const content = `# Backlog
-
-*No tasks yet.*
-`;
-      expect(countTasks(content)).toBe(0);
-    });
-
-    test("returns 0 for file with no task headers", () => {
-      const content = `# In Progress
-
-*No task is currently ordained.*
-`;
-      expect(countTasks(content)).toBe(0);
-    });
-
-    test("handles single task", () => {
-      const content = `# In Progress
-
-## [TASK-042] The Answer
-
-Working on it.
-`;
-      expect(countTasks(content)).toBe(1);
-    });
+describe("countTasks", () => {
+  test("counts zero tasks in empty content", () => {
+    expect(countTasks("# Backlog\n\nNo tasks here.")).toBe(0);
   });
 
-  describe("extractCurrentTask", () => {
-    test("extracts task ID and title from in-progress", () => {
-      const content = `# In Progress
+  test("counts single task", () => {
+    const content = `# Backlog
 
-## [TASK-010] Manifest the status Command
+## [TASK-001] First Task
 
-Working on it.
+Description here.
 `;
-      const task = extractCurrentTask(content);
-      expect(task).toEqual({
-        id: "TASK-010",
-        title: "Manifest the status Command",
-      });
-    });
-
-    test("returns null when no task is in progress", () => {
-      const content = `# In Progress
-
-*No task is currently ordained.*
-`;
-      expect(extractCurrentTask(content)).toBeNull();
-    });
-
-    test("extracts first task if multiple exist (heresy but handled)", () => {
-      const content = `# In Progress
-
-## [TASK-001] First task
-
-## [TASK-002] Second task
-`;
-      const task = extractCurrentTask(content);
-      expect(task?.id).toBe("TASK-001");
-    });
+    expect(countTasks(content)).toBe(1);
   });
 
-  describe("parseKanbanFile", () => {
-    test("parses backlog file correctly", () => {
-      const content = `# The Backlog
+  test("counts multiple tasks", () => {
+    const content = `# Backlog
+
+## [TASK-001] First Task
+
+Description.
+
+## [TASK-002] Second Task
+
+Another description.
+
+## [TASK-003] Third Task
+
+Yet another.
+`;
+    expect(countTasks(content)).toBe(3);
+  });
+
+  test("ignores non-task headers", () => {
+    const content = `# Backlog
+
+## [TASK-001] Real Task
+
+## Not a Task
+
+## [OTHER-002] Also Not a Task
+`;
+    expect(countTasks(content)).toBe(1);
+  });
+});
+
+describe("extractCurrentTask", () => {
+  test("returns null for empty content", () => {
+    expect(extractCurrentTask("# In Progress\n\nNo tasks.")).toBeNull();
+  });
+
+  test("extracts task from content", () => {
+    const content = `# In Progress
+
+## [TASK-004] Implement user auth
+
+Description here.
+`;
+    const task = extractCurrentTask(content);
+    expect(task).not.toBeNull();
+    expect(task!.id).toBe("TASK-004");
+    expect(task!.title).toBe("Implement user auth");
+  });
+
+  test("extracts first task when multiple exist", () => {
+    const content = `# In Progress
 
 ## [TASK-001] First
+
 ## [TASK-002] Second
 `;
-      const result = parseKanbanFile(content, "backlog");
-      expect(result.count).toBe(2);
-      expect(result.type).toBe("backlog");
-    });
+    const task = extractCurrentTask(content);
+    expect(task!.id).toBe("TASK-001");
+    expect(task!.title).toBe("First");
+  });
+});
 
-    test("parses in-progress file correctly", () => {
-      const content = `# In Progress
-
-## [TASK-010] Current work
-`;
-      const result = parseKanbanFile(content, "in-progress");
-      expect(result.count).toBe(1);
-      expect(result.type).toBe("in-progress");
-      expect(result.currentTask?.id).toBe("TASK-010");
-    });
-
-    test("parses done file correctly", () => {
-      const content = `# Done
+describe("parseKanbanFile", () => {
+  test("parses backlog file", () => {
+    const content = `# Backlog
 
 ## [TASK-001] First
+
 ## [TASK-002] Second
-## [TASK-003] Third
 `;
-      const result = parseKanbanFile(content, "done");
-      expect(result.count).toBe(3);
-      expect(result.type).toBe("done");
-    });
+    const result = parseKanbanFile(content, "backlog");
+    expect(result.count).toBe(2);
+    expect(result.currentTask).toBeNull();
+  });
+
+  test("parses in-progress file with current task", () => {
+    const content = `# In Progress
+
+## [TASK-003] Current Work
+`;
+    const result = parseKanbanFile(content, "in-progress");
+    expect(result.count).toBe(1);
+    expect(result.currentTask).not.toBeNull();
+    expect(result.currentTask!.id).toBe("TASK-003");
+  });
+
+  test("parses done file", () => {
+    const content = `# Done
+
+## [TASK-001] First Completed
+
+## [TASK-002] Second Completed
+`;
+    const result = parseKanbanFile(content, "done");
+    expect(result.count).toBe(2);
+    expect(result.currentTask).toBeNull();
+  });
+});
+
+describe("formatRelativeTime", () => {
+  test("formats just now", () => {
+    const now = new Date();
+    expect(formatRelativeTime(now)).toBe("just now");
+  });
+
+  test("formats minutes ago", () => {
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+    expect(formatRelativeTime(fiveMinutesAgo)).toBe("5 minutes ago");
+  });
+
+  test("formats single minute", () => {
+    const oneMinuteAgo = new Date(Date.now() - 1 * 60 * 1000);
+    expect(formatRelativeTime(oneMinuteAgo)).toBe("1 minute ago");
+  });
+
+  test("formats hours ago", () => {
+    const threeHoursAgo = new Date(Date.now() - 3 * 60 * 60 * 1000);
+    expect(formatRelativeTime(threeHoursAgo)).toBe("3 hours ago");
+  });
+
+  test("formats single hour", () => {
+    const oneHourAgo = new Date(Date.now() - 1 * 60 * 60 * 1000);
+    expect(formatRelativeTime(oneHourAgo)).toBe("1 hour ago");
+  });
+
+  test("formats days ago", () => {
+    const twoDaysAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
+    expect(formatRelativeTime(twoDaysAgo)).toBe("2 days ago");
+  });
+
+  test("formats single day", () => {
+    const oneDayAgo = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000);
+    expect(formatRelativeTime(oneDayAgo)).toBe("1 day ago");
   });
 });

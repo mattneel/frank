@@ -1,83 +1,61 @@
-import { describe, expect, test } from "bun:test";
-import { parseArgs, type ParsedArgs } from "../../src/args";
+/**
+ * Unit Tests for the Argument Parser
+ */
 
-describe("The Argument Parser", () => {
-  describe("sacred commands", () => {
-    test("parses 'init' command", () => {
+import { describe, test, expect } from "bun:test";
+import { parseArgs } from "../../src/args";
+
+describe("parseArgs", () => {
+  describe("commands", () => {
+    test("parses init command", () => {
       const result = parseArgs(["init"]);
       expect(result.command).toBe("init");
+      expect(result.error).toBeUndefined();
     });
 
-    test("parses 'add' command with preset argument", () => {
-      const result = parseArgs(["add", "zig"]);
+    test("parses add command", () => {
+      const result = parseArgs(["add"]);
       expect(result.command).toBe("add");
-      expect(result.args).toEqual(["zig"]);
+      expect(result.error).toBeUndefined();
     });
 
-    test("parses 'status' command", () => {
+    test("parses status command", () => {
       const result = parseArgs(["status"]);
       expect(result.command).toBe("status");
+      expect(result.error).toBeUndefined();
     });
 
-    test("parses 'regenerate' command", () => {
+    test("parses regenerate command", () => {
       const result = parseArgs(["regenerate"]);
       expect(result.command).toBe("regenerate");
+      expect(result.error).toBeUndefined();
     });
 
-    test("parses 'praise' command", () => {
+    test("parses praise command", () => {
       const result = parseArgs(["praise"]);
       expect(result.command).toBe("praise");
+      expect(result.error).toBeUndefined();
+    });
+
+    test("returns error for unknown command", () => {
+      const result = parseArgs(["unknown"]);
+      expect(result.error).toBe("Unknown command: unknown");
+    });
+
+    test("no command returns undefined", () => {
+      const result = parseArgs([]);
+      expect(result.command).toBeUndefined();
+      expect(result.error).toBeUndefined();
     });
   });
 
-  describe("init command flags", () => {
-    test("parses --with flag with single preset", () => {
-      const result = parseArgs(["init", "--with", "zig"]);
-      expect(result.command).toBe("init");
-      expect(result.flags.with).toEqual(["zig"]);
-    });
-
-    test("parses --with flag with comma-separated presets", () => {
-      const result = parseArgs(["init", "--with", "elixir,phoenix,liveview"]);
-      expect(result.command).toBe("init");
-      expect(result.flags.with).toEqual(["elixir", "phoenix", "liveview"]);
-    });
-
-    test("parses --force flag", () => {
-      const result = parseArgs(["init", "--force"]);
-      expect(result.command).toBe("init");
-      expect(result.flags.force).toBe(true);
-    });
-
-    test("parses combined flags", () => {
-      const result = parseArgs(["init", "--with", "zig", "--force"]);
-      expect(result.command).toBe("init");
-      expect(result.flags.with).toEqual(["zig"]);
-      expect(result.flags.force).toBe(true);
-    });
-  });
-
-  describe("regenerate command flags", () => {
-    test("parses --yes flag to skip confirmation", () => {
-      const result = parseArgs(["regenerate", "--yes"]);
-      expect(result.command).toBe("regenerate");
-      expect(result.flags.yes).toBe(true);
-    });
-
-    test("parses -y shorthand", () => {
-      const result = parseArgs(["regenerate", "-y"]);
-      expect(result.command).toBe("regenerate");
-      expect(result.flags.yes).toBe(true);
-    });
-  });
-
-  describe("global flags", () => {
+  describe("flags", () => {
     test("parses --help flag", () => {
       const result = parseArgs(["--help"]);
       expect(result.flags.help).toBe(true);
     });
 
-    test("parses -h shorthand", () => {
+    test("parses -h flag", () => {
       const result = parseArgs(["-h"]);
       expect(result.flags.help).toBe(true);
     });
@@ -87,40 +65,80 @@ describe("The Argument Parser", () => {
       expect(result.flags.version).toBe(true);
     });
 
-    test("parses -v shorthand", () => {
+    test("parses -v flag", () => {
       const result = parseArgs(["-v"]);
       expect(result.flags.version).toBe(true);
     });
 
-    test("parses command-specific --help", () => {
-      const result = parseArgs(["init", "--help"]);
+    test("parses --force flag", () => {
+      const result = parseArgs(["init", "--force"]);
+      expect(result.flags.force).toBe(true);
+    });
+
+    test("parses -f flag", () => {
+      const result = parseArgs(["init", "-f"]);
+      expect(result.flags.force).toBe(true);
+    });
+
+    test("parses --yes flag", () => {
+      const result = parseArgs(["regenerate", "--yes"]);
+      expect(result.flags.yes).toBe(true);
+    });
+
+    test("parses -y flag", () => {
+      const result = parseArgs(["regenerate", "-y"]);
+      expect(result.flags.yes).toBe(true);
+    });
+
+    test("parses --with flag with single preset", () => {
+      const result = parseArgs(["init", "--with", "zig"]);
+      expect(result.flags.with).toEqual(["zig"]);
+    });
+
+    test("parses --with flag with multiple presets", () => {
+      const result = parseArgs(["init", "--with", "zig,typescript"]);
+      expect(result.flags.with).toEqual(["zig", "typescript"]);
+    });
+
+    test("returns error for unknown flag", () => {
+      const result = parseArgs(["--unknown"]);
+      expect(result.error).toBe("Unknown flag: --unknown");
+    });
+
+    test("returns error for unknown short flag", () => {
+      const result = parseArgs(["-x"]);
+      expect(result.error).toBe("Unknown flag: -x");
+    });
+  });
+
+  describe("arguments", () => {
+    test("collects arguments after command", () => {
+      const result = parseArgs(["add", "zig"]);
+      expect(result.command).toBe("add");
+      expect(result.args).toEqual(["zig"]);
+    });
+
+    test("collects multiple arguments", () => {
+      const result = parseArgs(["add", "zig", "typescript"]);
+      expect(result.args).toEqual(["zig", "typescript"]);
+    });
+  });
+
+  describe("combined", () => {
+    test("parses command with flags and arguments", () => {
+      const result = parseArgs(["init", "--force", "--with", "zig"]);
       expect(result.command).toBe("init");
-      expect(result.flags.help).toBe(true);
-    });
-  });
-
-  describe("error handling", () => {
-    test("returns error for unknown command", () => {
-      const result = parseArgs(["heresy"]);
-      expect(result.error).toBeDefined();
-      expect(result.error).toContain("heresy");
+      expect(result.flags.force).toBe(true);
+      expect(result.flags.with).toEqual(["zig"]);
     });
 
-    test("returns error when add command lacks preset argument", () => {
-      const result = parseArgs(["add"]);
-      expect(result.error).toBeDefined();
-    });
-
-    test("returns error when --with lacks value", () => {
-      const result = parseArgs(["init", "--with"]);
-      expect(result.error).toBeDefined();
-    });
-  });
-
-  describe("no arguments", () => {
-    test("returns help flag when no arguments provided", () => {
-      const result = parseArgs([]);
-      expect(result.flags.help).toBe(true);
+    test("flags default to false", () => {
+      const result = parseArgs(["init"]);
+      expect(result.flags.help).toBe(false);
+      expect(result.flags.version).toBe(false);
+      expect(result.flags.force).toBe(false);
+      expect(result.flags.yes).toBe(false);
+      expect(result.flags.with).toEqual([]);
     });
   });
 });

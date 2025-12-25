@@ -1,112 +1,102 @@
 #!/usr/bin/env bun
-
 /**
- * rtfct — The CLI of the Adeptus Artefactus
+ * rtfct — The Ritual Factory
  *
- * Markdown-driven development. The spec is the source of truth.
- * Code is a regenerable artefact.
- *
- * The Omnissiah provides. Praise the Machine Spirit.
+ * A CLI tool for markdown-driven development.
+ * The .project/ folder is the source of truth.
  */
 
 import { parseArgs } from "./args";
 import { printHelp, printVersion, printError } from "./help";
-import { runInit } from "./commands/init";
-import { runAdd } from "./commands/add";
+import { runInit, formatInit } from "./commands/init";
+import { runAdd, formatAdd } from "./commands/add";
 import { runStatus, formatStatus } from "./commands/status";
-import { runPraise } from "./commands/praise";
 import { runRegenerate, formatRegenerate } from "./commands/regenerate";
+import { runPraise } from "./commands/praise";
 
 const main = async (): Promise<void> => {
-  const args = process.argv.slice(2);
-  const parsed = parseArgs(args);
+  const parsed = parseArgs(process.argv.slice(2));
 
-  // Handle errors
+  // Handle parse errors
   if (parsed.error) {
     printError(parsed.error);
     process.exit(1);
   }
 
   // Handle global flags
+  if (parsed.flags.help) {
+    printHelp();
+    return;
+  }
+
   if (parsed.flags.version) {
     printVersion();
     return;
   }
 
-  if (parsed.flags.help) {
-    printHelp(parsed.command);
+  // No command specified
+  if (!parsed.command) {
+    printHelp();
     return;
   }
 
-  // Handle commands
+  const cwd = process.cwd();
+
+  // Execute the command
   switch (parsed.command) {
     case "init": {
-      const result = await runInit(process.cwd(), parsed.flags);
+      const result = await runInit(cwd, {
+        force: parsed.flags.force,
+        presets: parsed.flags.with,
+      });
+      console.log(formatInit(result));
       if (!result.success) {
-        printError(result.error!);
         process.exit(1);
       }
-      console.log("The Sacred Texts have been consecrated.");
-      if (result.presets && result.presets.length > 0) {
-        console.log(`Codices incorporated: ${result.presets.join(", ")}`);
-      }
-      console.log("Edit .project/kickstart.md to inscribe your Founding Vision.");
-      console.log("\nThe Omnissiah provides. Praise the Machine Spirit.");
       break;
     }
 
     case "add": {
-      const presetName = parsed.args[0];
-      if (!presetName) {
-        printError("The 'add' command requires a preset name. Example: rtfct add zig");
+      if (parsed.args.length === 0) {
+        printError("The 'add' command requires a preset name.");
         process.exit(1);
       }
-
-      const result = await runAdd(process.cwd(), presetName);
+      const result = await runAdd(cwd, parsed.args[0]);
+      console.log(formatAdd(result));
       if (!result.success) {
-        printError(result.error!);
         process.exit(1);
       }
-      console.log(`The Codex "${result.presetName}" has been incorporated.`);
-      console.log("The Sacred Texts are enriched with new wisdom.");
-      console.log("\nThe Omnissiah provides.");
       break;
     }
 
     case "status": {
-      const result = await runStatus(process.cwd());
+      const result = await runStatus(cwd);
+      console.log(formatStatus(result));
       if (!result.success) {
-        printError(result.error!);
         process.exit(1);
       }
-      console.log(formatStatus(result.data!));
       break;
     }
 
     case "regenerate": {
-      // Check for confirmation flag
-      if (!parsed.flags.yes) {
-        console.log("Are you certain? This will purify all generated code.");
-        console.log("Run with --yes or -y to confirm.");
-        process.exit(1);
-      }
-
-      const result = await runRegenerate(process.cwd(), parsed.flags);
+      const result = await runRegenerate(cwd, {
+        yes: parsed.flags.yes,
+      });
+      console.log(formatRegenerate(result));
       if (!result.success) {
-        printError(result.error!);
         process.exit(1);
       }
-      console.log(formatRegenerate(result.purifiedPaths || []));
       break;
     }
 
-    case "praise":
-      runPraise();
+    case "praise": {
+      console.log(runPraise());
       break;
-
-    default:
-      printHelp();
+    }
   }
 };
 
-main();
+main().catch((error) => {
+  console.error("Fatal error:", error);
+  process.exit(1);
+});

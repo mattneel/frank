@@ -1,82 +1,120 @@
 /**
- * The regenerate Command — Purification of Generated Code
+ * The Regenerate Command — Purify the Codebase
+ *
+ * Deletes generated paths in preparation for regeneration.
  */
 
-import { rm, access } from "fs/promises";
+import { rm, stat } from "fs/promises";
 import { join } from "path";
-import type { ParsedFlags } from "../args";
 import { collectGeneratedPaths } from "../manifest";
+
+export interface RegenerateOptions {
+  yes?: boolean;
+}
 
 export interface RegenerateResult {
   success: boolean;
-  error?: string;
-  purifiedPaths?: string[];
+  message: string;
+  deletedPaths?: string[];
+  requiresConfirmation?: boolean;
+  pathsToDelete?: string[];
 }
 
-const exists = async (path: string): Promise<boolean> => {
-  try {
-    await access(path);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
+/**
+ * Run the regenerate command to purify the codebase.
+ */
 export const runRegenerate = async (
-  cwd: string,
-  flags: ParsedFlags
+  targetDir: string,
+  options: RegenerateOptions = {}
 ): Promise<RegenerateResult> => {
-  const projectDir = join(cwd, ".project");
+  const projectDir = join(targetDir, ".project");
 
   // Check if .project/ exists
-  if (!(await exists(projectDir))) {
+  try {
+    const stats = await stat(projectDir);
+    if (!stats.isDirectory()) {
+      return {
+        success: false,
+        message:
+          "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
+      };
+    }
+  } catch {
     return {
       success: false,
-      error: "No .project/ found. This directory has not been consecrated. Run 'rtfct init' first.",
+      message:
+        "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
     };
   }
 
-  // Collect paths to purify from manifests
-  const pathsToPurify = await collectGeneratedPaths(cwd);
+  // Collect paths to delete
+  const pathsToDelete = await collectGeneratedPaths(targetDir);
 
-  // Purify each path
-  const purifiedPaths: string[] = [];
-  for (const relativePath of pathsToPurify) {
-    const fullPath = join(cwd, relativePath);
-    if (await exists(fullPath)) {
-      await rm(fullPath, { recursive: true, force: true });
-      purifiedPaths.push(relativePath);
+  // If not confirmed, request confirmation
+  if (!options.yes) {
+    return {
+      success: true,
+      requiresConfirmation: true,
+      pathsToDelete,
+      message: "Confirmation required",
+    };
+  }
+
+  // Delete the paths
+  const deletedPaths: string[] = [];
+  for (const path of pathsToDelete) {
+    const fullPath = join(targetDir, path);
+    try {
+      await rm(fullPath, { recursive: true });
+      deletedPaths.push(path);
+    } catch {
+      // Path doesn't exist, which is fine
     }
   }
 
   return {
     success: true,
-    purifiedPaths,
+    message: "The codebase has been purified.",
+    deletedPaths,
   };
 };
 
-export const formatRegenerate = (paths: string[]): string => {
-  const lines: string[] = [];
+/**
+ * Format the regenerate result for CLI output.
+ */
+export const formatRegenerate = (result: RegenerateResult): string => {
+  if (!result.success) {
+    return `✗ ${result.message}`;
+  }
 
-  lines.push("The Rite of Purification begins...");
-  lines.push("");
-
-  if (paths.length === 0) {
-    lines.push("No generated paths found to purify.");
-  } else {
-    lines.push("Purifying:");
-    for (const path of paths) {
+  if (result.requiresConfirmation) {
+    const lines: string[] = [];
+    lines.push("⚠ The Rite of Purification");
+    lines.push("");
+    lines.push("The following paths will be purified:");
+    for (const path of result.pathsToDelete || []) {
       lines.push(`  - ${path}`);
     }
     lines.push("");
-    lines.push("Purification complete.");
+    lines.push("Run with --yes to confirm.");
+    return lines.join("\n");
+  }
+
+  const lines: string[] = [];
+  lines.push("✓ " + result.message);
+  lines.push("");
+
+  if (result.deletedPaths && result.deletedPaths.length > 0) {
+    lines.push("Purified paths:");
+    for (const path of result.deletedPaths) {
+      lines.push(`  - ${path}`);
+    }
+  } else {
+    lines.push("No paths were purified (already clean).");
   }
 
   lines.push("");
-  lines.push("The codebase is cleansed. To regenerate:");
-  lines.push("  1. Invoke the Machine Spirit (claude, cursor, etc.)");
-  lines.push("  2. The agent shall read the Sacred Texts");
-  lines.push("  3. Code shall be manifested anew");
+  lines.push("Invoke the Machine Spirit to regenerate.");
   lines.push("");
   lines.push("The Omnissiah provides.");
 

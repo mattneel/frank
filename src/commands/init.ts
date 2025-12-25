@@ -1,10 +1,11 @@
 /**
- * The init Command — Consecration of a New Project
+ * The Init Command — Consecrate a New Project
+ *
+ * Creates the .project/ folder structure with Sacred Texts.
  */
 
-import { mkdir, rm, access } from "fs/promises";
+import { mkdir, writeFile, rm, stat } from "fs/promises";
 import { join } from "path";
-import type { ParsedFlags } from "../args";
 import {
   PROTOCOL_MD,
   THEOLOGY_MD,
@@ -14,96 +15,130 @@ import {
   IN_PROGRESS_MD,
   DONE_MD,
 } from "../templates";
-import { resolvePreset, writePreset, type Preset } from "../presets";
+import { resolvePreset, writePreset } from "../presets";
 
-export interface InitResult {
-  success: boolean;
-  error?: string;
+export interface InitOptions {
+  force?: boolean;
   presets?: string[];
 }
 
-const exists = async (path: string): Promise<boolean> => {
-  try {
-    await access(path);
-    return true;
-  } catch {
-    return false;
-  }
-};
+export interface InitResult {
+  success: boolean;
+  message: string;
+  presetErrors?: string[];
+}
 
-const writeFile = async (path: string, content: string): Promise<void> => {
-  await Bun.write(path, content);
-};
-
+/**
+ * Run the init command to consecrate a project.
+ */
 export const runInit = async (
-  cwd: string,
-  flags: ParsedFlags
+  targetDir: string,
+  options: InitOptions = {}
 ): Promise<InitResult> => {
-  const projectDir = join(cwd, ".project");
-
-  // Resolve presets first (fail fast if any are invalid)
-  const presets: Preset[] = [];
-  if (flags.with && flags.with.length > 0) {
-    for (const presetName of flags.with) {
-      const result = resolvePreset(presetName);
-      if (result.error) {
-        return { success: false, error: result.error };
-      }
-      presets.push(result.preset!);
-    }
-  }
+  const projectDir = join(targetDir, ".project");
 
   // Check if .project/ already exists
-  if (await exists(projectDir)) {
-    if (flags.force) {
-      // Purify existing .project/
-      await rm(projectDir, { recursive: true, force: true });
-    } else {
-      return {
-        success: false,
-        error: `The Sacred Texts already exist at ${projectDir}. Use --force to purify and recreate.`,
-      };
+  try {
+    const stats = await stat(projectDir);
+    if (stats.isDirectory()) {
+      if (options.force) {
+        // Purify existing .project/
+        await rm(projectDir, { recursive: true });
+      } else {
+        return {
+          success: false,
+          message:
+            "The .project/ folder already exists. Use --force to purify and recreate.",
+        };
+      }
     }
+  } catch {
+    // Directory doesn't exist, which is what we want
   }
 
-  // Create the holy directory structure
+  // Create the directory structure
   const directories = [
-    ".project",
-    ".project/kanban",
-    ".project/specs",
-    ".project/design",
-    ".project/testing",
-    ".project/adrs",
-    ".project/references",
-    ".project/presets",
+    projectDir,
+    join(projectDir, "specs"),
+    join(projectDir, "design"),
+    join(projectDir, "adrs"),
+    join(projectDir, "kanban"),
+    join(projectDir, "testing"),
+    join(projectDir, "references"),
+    join(projectDir, "presets"),
   ];
 
   for (const dir of directories) {
-    await mkdir(join(cwd, dir), { recursive: true });
+    await mkdir(dir, { recursive: true });
   }
 
-  // Inscribe the Sacred Texts
-  const files: Array<[string, string]> = [
-    [".project/protocol.md", PROTOCOL_MD],
-    [".project/theology.md", THEOLOGY_MD],
-    [".project/kickstart.md", KICKSTART_MD],
-    [".project/guardrails.md", GUARDRAILS_MD],
-    [".project/kanban/backlog.md", BACKLOG_MD],
-    [".project/kanban/in-progress.md", IN_PROGRESS_MD],
-    [".project/kanban/done.md", DONE_MD],
+  // Write the Sacred Texts
+  const files = [
+    { path: join(projectDir, "protocol.md"), content: PROTOCOL_MD },
+    { path: join(projectDir, "theology.md"), content: THEOLOGY_MD },
+    { path: join(projectDir, "kickstart.md"), content: KICKSTART_MD },
+    { path: join(projectDir, "guardrails.md"), content: GUARDRAILS_MD },
+    { path: join(projectDir, "kanban", "backlog.md"), content: BACKLOG_MD },
+    {
+      path: join(projectDir, "kanban", "in-progress.md"),
+      content: IN_PROGRESS_MD,
+    },
+    { path: join(projectDir, "kanban", "done.md"), content: DONE_MD },
   ];
 
-  for (const [filePath, content] of files) {
-    await writeFile(join(cwd, filePath), content);
+  for (const file of files) {
+    await writeFile(file.path, file.content);
   }
 
-  // Write presets
-  for (const preset of presets) {
-    await writePreset(cwd, preset);
+  // Handle presets if specified
+  const presetErrors: string[] = [];
+  if (options.presets && options.presets.length > 0) {
+    for (const presetName of options.presets) {
+      const result = resolvePreset(presetName);
+      if (result.success) {
+        await writePreset(targetDir, result.preset);
+      } else {
+        presetErrors.push(result.error);
+      }
+    }
+  }
+
+  if (presetErrors.length > 0) {
+    return {
+      success: true,
+      message:
+        "Project consecrated with warnings. Some presets failed to install.",
+      presetErrors,
+    };
   }
 
   return {
     success: true,
-    presets: presets.map((p) => p.name),
+    message: "Project consecrated. The Sacred Texts have been inscribed.",
   };
+};
+
+/**
+ * Format the init result for CLI output.
+ */
+export const formatInit = (result: InitResult): string => {
+  const lines: string[] = [];
+
+  if (result.success) {
+    lines.push("✓ " + result.message);
+    lines.push("");
+    lines.push("The Omnissiah provides.");
+  } else {
+    lines.push("✗ " + result.message);
+  }
+
+  if (result.presetErrors && result.presetErrors.length > 0) {
+    lines.push("");
+    lines.push("Preset warnings:");
+    for (const error of result.presetErrors) {
+      lines.push("  - " + error);
+    }
+  }
+
+  return lines.join("\n");
 };

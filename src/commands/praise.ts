@@ -1,5 +1,7 @@
 /**
- * The praise Command — Recitation of the Sacred Litany
+ * The Praise Command — Recite the Sacred Litany
+ *
+ * Outputs the Litany of Deterministic Codegen.
  */
 
 const LITANY = `The flesh is weak, but the protocol is strong.
@@ -9,6 +11,9 @@ From specification, code. From code, verification. From verification, truth.
 The Omnissiah provides.
 Praise the Machine Spirit.`;
 
-export const runPraise = (): void => {
-  console.log(LITANY);
+/**
+ * Run the praise command.
+ */
+export const runPraise = (): string => {
+  return LITANY;
 };

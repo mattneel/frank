@@ -1,76 +1,56 @@
 /**
- * The Elixir Codex — Wisdom for the Disciples of the BEAM
+ * The Elixir Codex — Sacred Patterns for Elixir/OTP Development
  */
 
 import type { Preset } from "./index";
 
-const MANIFEST = `{
-  "name": "elixir",
-  "version": "0.1.0",
-  "description": "The Elixir Codex — OTP, supervision trees, and the pursuit of fault tolerance",
-  "generated_paths": ["lib/", "_build/", "deps/"]
-}
-`;
+export const ELIXIR_PRESET: Preset = {
+  name: "elixir",
+  manifest: {
+    name: "elixir",
+    version: "0.1.0",
+    description: "The Elixir Codex — Functional programming with OTP",
+    generated_paths: ["lib/", "test/"],
+  },
+  files: [
+    {
+      path: "testing/strategy.md",
+      content: `# Elixir Testing Strategy
 
-const TESTING_STRATEGY = `# The Rites of Verification — Elixir
-
-*The tests do not lie, and the supervision tree does not fail.*
+*The Rites of Verification for Elixir*
 
 ## The Sacred Approach
 
-Elixir projects perform their Rites of Verification through ExUnit.
-
-## The Test Runner
+Use ExUnit, the built-in test framework.
 
 \`\`\`bash
-mix test
+mix test           # Run all tests
+mix test --cover   # With coverage
 \`\`\`
 
-No external dependencies beyond Mix. The BEAM provides.
-
-## The Directory of Trials
+## Test Organization
 
 \`\`\`
-lib/
-├── my_app/
-│   ├── application.ex
-│   └── *.ex
 test/
-├── my_app/
-│   └── *_test.exs
-├── support/
-│   └── *.ex
-└── test_helper.exs
+├── unit/              # Unit tests for pure functions
+├── integration/       # Tests involving multiple modules
+├── support/           # Test helpers and fixtures
+└── test_helper.exs    # Test configuration
 \`\`\`
 
-## The Test Pattern
+## The Pattern
 
 \`\`\`elixir
-defmodule MyApp.CalculatorTest do
+defmodule MyApp.MathTest do
   use ExUnit.Case, async: true
 
   describe "add/2" do
-    test "adds two positive numbers" do
-      assert MyApp.Calculator.add(2, 3) == 5
+    test "adds two numbers" do
+      assert MyApp.Math.add(2, 3) == 5
     end
 
-    test "is commutative" do
-      assert MyApp.Calculator.add(2, 3) == MyApp.Calculator.add(3, 2)
-    end
-  end
-end
-\`\`\`
-
-## The Property Testing Pattern
-
-\`\`\`elixir
-defmodule MyApp.PropertyTest do
-  use ExUnit.Case
-  use ExUnitProperties
-
-  property "addition is commutative" do
-    check all a <- integer(), b <- integer() do
-      assert MyApp.Calculator.add(a, b) == MyApp.Calculator.add(b, a)
+    test "handles negative numbers" do
+      assert MyApp.Math.add(-1, 1) == 0
     end
   end
 end
@@ -78,99 +58,61 @@ end
 
 ## Coverage Doctrine
 
-- **All public functions have tests** — If it's exported, it's tested
-- **Happy and unhappy paths** — Test success and failure modes
-- **Async when possible** — Use \`async: true\` for isolated tests
-- **Property tests for invariants** — StreamData for generative testing
+- All public functions have doctests or explicit tests
+- GenServers tested with start_supervised
+- Async tests where possible for speed
 
 ---
-
-*Let it crash, but verify it crashes correctly.*
 
 *Praise the Machine Spirit.*
-`;
+`,
+    },
+    {
+      path: "guardrails.md",
+      content: `# Elixir Guardrails — Forbidden Heresies
 
-const GUARDRAILS = `# The Forbidden Heresies — Elixir
+*Elixir-specific patterns to avoid*
 
-*The BEAM is forgiving, but not infinitely so.*
+## OTP Heresies
 
-## The Sacred Commandments
+1. **Naked spawn** — Use Task or GenServer, not raw spawn
+2. **Ignoring :DOWN** — Monitor linked processes properly
+3. **Global state** — Use process state or ETS, not module attributes
 
-### THOU SHALT
+## Pattern Matching Heresies
 
-- **Let it crash** — Supervisors handle failure. Don't rescue everything.
-- **Use pattern matching** — Explicit is better than conditional.
-- **Prefer pipes** — \`|>\` makes data flow visible.
-- **Name processes** — Registered names or via for discoverability.
-- **Use behaviours** — GenServer, Supervisor, Application.
+1. **Catch-all first** — Specific patterns before general ones
+2. **Ignoring warnings** — Dialyzer warnings are prophecy
+3. **Deep nesting** — Use \`with\` for railway-oriented programming
 
-### THOU SHALT NOT
+## Process Heresies
 
-- **Rescue blanket exceptions** — \`rescue _ ->\` is heresy.
-- **Use mutable state** — Agent/GenServer state is the way.
-- **Block the scheduler** — NIFs and long computations need care.
-- **Ignore OTP** — Build on the giants' shoulders.
-- **Use \`spawn\` for application processes** — Use supervised children.
+1. **Unbounded mailboxes** — Add backpressure or load shedding
+2. **Synchronous GenServer calls in init** — Defer with handle_continue
+3. **Long-running calls** — Use cast or Task for slow operations
 
-## The Code Purity Laws
-
-- **Functions are pure when possible** — Side effects in GenServers.
-- **Pattern match in function heads** — Not in function bodies.
-- **Small modules** — One responsibility per module.
-- **Explicit dependencies** — Inject, don't hardcode.
-
-## The Error Doctrine
+## The Holy Patterns
 
 \`\`\`elixir
-# Good: Return tagged tuples
-def parse(input) do
-  case do_parse(input) do
-    {:ok, result} -> {:ok, result}
-    {:error, reason} -> {:error, reason}
-  end
+# Railway-oriented programming with 'with'
+with {:ok, user} <- fetch_user(id),
+     {:ok, account} <- fetch_account(user),
+     {:ok, balance} <- get_balance(account) do
+  {:ok, balance}
 end
 
-# Bad: Raise for control flow
-def parse!(input) do
-  result = do_parse(input)
-  if result == :error, do: raise "Parse failed"  # Heresy for normal flow
-  result
-end
-\`\`\`
-
-## The Supervision Laws
-
-\`\`\`elixir
-# Good: Proper supervision tree
+# Proper supervision
 children = [
   {MyApp.Worker, []},
-  {MyApp.Consumer, []}
+  {MyApp.Cache, []}
 ]
 Supervisor.start_link(children, strategy: :one_for_one)
-
-# Bad: Unsupervised processes
-spawn(fn -> do_work() end)  # Heresy!
 \`\`\`
-
-## The GenServer Commandments
-
-- **Keep handle_* fast** — Offload work to separate processes
-- **Use handle_continue** — For post-init work
-- **Timeouts are your friend** — Prevent infinite waits
-- **State is data** — Maps and structs, not complex objects
 
 ---
 
-*The BEAM runs forever. Write code worthy of it.*
-
-*The flesh is weak, but Erlang is strong.*
-`;
-
-export const elixirCodex = (): Preset => ({
-  name: "elixir",
-  files: [
-    { path: "manifest.json", content: MANIFEST },
-    { path: "testing/strategy.md", content: TESTING_STRATEGY },
-    { path: "guardrails.md", content: GUARDRAILS },
+*Let it crash. The supervisor provides. Praise the Machine Spirit.*
+`,
+    },
   ],
-});
+};

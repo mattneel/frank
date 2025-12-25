@@ -1,15 +1,17 @@
 /**
- * The Argument Parser — Interpreter of the Tech-Priest's Commands
+ * The Argument Parser — Interprets the Tech-Priest's Commands
+ *
+ * Parses CLI arguments into structured commands and flags.
  */
 
 export type Command = "init" | "add" | "status" | "regenerate" | "praise";
 
 export interface ParsedFlags {
-  help?: boolean;
-  version?: boolean;
-  force?: boolean;
-  yes?: boolean;
-  with?: string[];
+  help: boolean;
+  version: boolean;
+  force: boolean;
+  yes: boolean;
+  with: string[];
 }
 
 export interface ParsedArgs {
@@ -19,7 +21,7 @@ export interface ParsedArgs {
   error?: string;
 }
 
-const SACRED_COMMANDS: readonly Command[] = [
+const VALID_COMMANDS: Command[] = [
   "init",
   "add",
   "status",
@@ -27,89 +29,76 @@ const SACRED_COMMANDS: readonly Command[] = [
   "praise",
 ];
 
-const isCommand = (arg: string): arg is Command => {
-  return SACRED_COMMANDS.includes(arg as Command);
-};
-
+/**
+ * Parse command line arguments into structured form.
+ * @param argv - Raw arguments (typically process.argv.slice(2))
+ */
 export const parseArgs = (argv: string[]): ParsedArgs => {
-  const result: ParsedArgs = {
-    args: [],
-    flags: {},
+  const flags: ParsedFlags = {
+    help: false,
+    version: false,
+    force: false,
+    yes: false,
+    with: [],
   };
 
-  // No arguments — show help
-  if (argv.length === 0) {
-    result.flags.help = true;
-    return result;
-  }
+  const args: string[] = [];
+  let command: Command | undefined;
+  let error: string | undefined;
 
-  let i = 0;
-  while (i < argv.length) {
+  for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
 
-    // Global flags
-    if (arg === "--help" || arg === "-h") {
-      result.flags.help = true;
-      i++;
-      continue;
-    }
+    // Handle flags
+    if (arg.startsWith("--")) {
+      const flag = arg.slice(2);
 
-    if (arg === "--version" || arg === "-v") {
-      result.flags.version = true;
-      i++;
-      continue;
-    }
-
-    // Command-specific flags
-    if (arg === "--force") {
-      result.flags.force = true;
-      i++;
-      continue;
-    }
-
-    if (arg === "--yes" || arg === "-y") {
-      result.flags.yes = true;
-      i++;
-      continue;
-    }
-
-    if (arg === "--with") {
-      const nextArg = argv[i + 1];
-      if (!nextArg || nextArg.startsWith("-")) {
-        result.error = "The --with flag requires a preset name. Example: --with zig";
-        return result;
+      if (flag === "help") {
+        flags.help = true;
+      } else if (flag === "version") {
+        flags.version = true;
+      } else if (flag === "force") {
+        flags.force = true;
+      } else if (flag === "yes") {
+        flags.yes = true;
+      } else if (flag === "with") {
+        // Next argument is the preset list
+        const nextArg = argv[++i];
+        if (nextArg) {
+          flags.with = nextArg.split(",").map((s) => s.trim());
+        }
+      } else {
+        error = `Unknown flag: --${flag}`;
+        break;
       }
-      result.flags.with = nextArg.split(",").map((s) => s.trim());
-      i += 2;
-      continue;
-    }
+    } else if (arg.startsWith("-")) {
+      const flag = arg.slice(1);
 
-    // Command parsing
-    if (!result.command && isCommand(arg)) {
-      result.command = arg;
-      i++;
-      continue;
+      if (flag === "h") {
+        flags.help = true;
+      } else if (flag === "v") {
+        flags.version = true;
+      } else if (flag === "f") {
+        flags.force = true;
+      } else if (flag === "y") {
+        flags.yes = true;
+      } else {
+        error = `Unknown flag: -${flag}`;
+        break;
+      }
+    } else if (!command) {
+      // First non-flag argument is the command
+      if (VALID_COMMANDS.includes(arg as Command)) {
+        command = arg as Command;
+      } else {
+        error = `Unknown command: ${arg}`;
+        break;
+      }
+    } else {
+      // Additional arguments after command
+      args.push(arg);
     }
-
-    // Unknown command
-    if (!result.command && !arg.startsWith("-")) {
-      result.error = `Unknown command: "${arg}". The sacred commands are: ${SACRED_COMMANDS.join(", ")}`;
-      return result;
-    }
-
-    // Positional arguments (after command)
-    if (result.command) {
-      result.args.push(arg);
-    }
-
-    i++;
   }
 
-  // Validate command-specific requirements
-  if (result.command === "add" && result.args.length === 0 && !result.flags.help) {
-    result.error = "The 'add' command requires a preset name. Example: rtfct add zig";
-    return result;
-  }
-
-  return result;
+  return { command, args, flags, error };
 };

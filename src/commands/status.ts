@@ -1,92 +1,63 @@
 /**
- * The status Command — Revelation of the Litany
+ * The Status Command — Reveal the State of the Litany of Tasks
+ *
+ * Parses kanban markdown and displays project status.
  */
 
-import { readFile, stat, access } from "fs/promises";
-import { join, basename } from "path";
-import { parseKanbanFile, type Task } from "../kanban";
+import { readFile, stat } from "fs/promises";
+import { join } from "path";
+import { parseKanbanFile, formatRelativeTime, type Task } from "../kanban";
 
 export interface StatusResult {
   success: boolean;
-  error?: string;
+  message?: string;
   data?: {
     projectName: string;
     backlogCount: number;
     inProgressCount: number;
-    currentTask: Task | null;
     doneCount: number;
+    currentTask: Task | null;
     lastActivity: Date | null;
   };
 }
 
-const exists = async (path: string): Promise<boolean> => {
-  try {
-    await access(path);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-const getLastModified = async (path: string): Promise<Date | null> => {
-  try {
-    const stats = await stat(path);
-    return stats.mtime;
-  } catch {
-    return null;
-  }
-};
-
+/**
+ * Helper to check if date a is newer than date b.
+ */
 const isNewer = (a: Date, b: Date | null): boolean => {
-  if (!b) return true;
+  if (b === null) return true;
   return a.getTime() > b.getTime();
 };
 
-const formatRelativeTime = (date: Date): string => {
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffSeconds = Math.floor(diffMs / 1000);
-  const diffMinutes = Math.floor(diffSeconds / 60);
-  const diffHours = Math.floor(diffMinutes / 60);
-  const diffDays = Math.floor(diffHours / 24);
-
-  if (diffDays > 0) {
-    return diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
-  }
-  if (diffHours > 0) {
-    return diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
-  }
-  if (diffMinutes > 0) {
-    return diffMinutes === 1 ? "1 minute ago" : `${diffMinutes} minutes ago`;
-  }
-  return "just now";
-};
-
-export const runStatus = async (cwd: string): Promise<StatusResult> => {
-  const projectDir = join(cwd, ".project");
+/**
+ * Run the status command to display project state.
+ */
+export const runStatus = async (targetDir: string): Promise<StatusResult> => {
+  const projectDir = join(targetDir, ".project");
   const kanbanDir = join(projectDir, "kanban");
 
   // Check if .project/ exists
-  if (!(await exists(projectDir))) {
+  try {
+    const stats = await stat(projectDir);
+    if (!stats.isDirectory()) {
+      return {
+        success: false,
+        message:
+          "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
+      };
+    }
+  } catch {
     return {
       success: false,
-      error: "No .project/ found. This directory has not been consecrated. Run 'rtfct init' first.",
+      message:
+        "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
     };
   }
 
-  // Check if kanban/ exists
-  if (!(await exists(kanbanDir))) {
-    return {
-      success: false,
-      error: "No .project/kanban/ found. The Litany of Tasks is missing.",
-    };
-  }
+  // Get project name from directory
+  const projectName = targetDir.split("/").pop() || "unknown";
 
-  // Read and parse kanban files
-  const backlogPath = join(kanbanDir, "backlog.md");
-  const inProgressPath = join(kanbanDir, "in-progress.md");
-  const donePath = join(kanbanDir, "done.md");
-
+  // Parse kanban files
   let backlogCount = 0;
   let inProgressCount = 0;
   let doneCount = 0;
@@ -94,57 +65,67 @@ export const runStatus = async (cwd: string): Promise<StatusResult> => {
   let lastActivity: Date | null = null;
 
   try {
-    if (await exists(backlogPath)) {
-      const content = await readFile(backlogPath, "utf-8");
-      const result = parseKanbanFile(content, "backlog");
-      backlogCount = result.count;
-      const mtime = await getLastModified(backlogPath);
-      if (mtime && isNewer(mtime, lastActivity)) {
-        lastActivity = mtime;
-      }
+    const backlogPath = join(kanbanDir, "backlog.md");
+    const backlogContent = await readFile(backlogPath, "utf-8");
+    const backlogStats = await stat(backlogPath);
+    const backlogResult = parseKanbanFile(backlogContent, "backlog");
+    backlogCount = backlogResult.count;
+    if (isNewer(backlogStats.mtime, lastActivity)) {
+      lastActivity = backlogStats.mtime;
     }
+  } catch {
+    // File doesn't exist or isn't readable
+  }
 
-    if (await exists(inProgressPath)) {
-      const content = await readFile(inProgressPath, "utf-8");
-      const result = parseKanbanFile(content, "in-progress");
-      inProgressCount = result.count;
-      currentTask = result.currentTask ?? null;
-      const mtime = await getLastModified(inProgressPath);
-      if (mtime && isNewer(mtime, lastActivity)) {
-        lastActivity = mtime;
-      }
+  try {
+    const inProgressPath = join(kanbanDir, "in-progress.md");
+    const inProgressContent = await readFile(inProgressPath, "utf-8");
+    const inProgressStats = await stat(inProgressPath);
+    const inProgressResult = parseKanbanFile(inProgressContent, "in-progress");
+    inProgressCount = inProgressResult.count;
+    currentTask = inProgressResult.currentTask;
+    if (isNewer(inProgressStats.mtime, lastActivity)) {
+      lastActivity = inProgressStats.mtime;
     }
+  } catch {
+    // File doesn't exist or isn't readable
+  }
 
-    if (await exists(donePath)) {
-      const content = await readFile(donePath, "utf-8");
-      const result = parseKanbanFile(content, "done");
-      doneCount = result.count;
-      const mtime = await getLastModified(donePath);
-      if (mtime && isNewer(mtime, lastActivity)) {
-        lastActivity = mtime;
-      }
+  try {
+    const donePath = join(kanbanDir, "done.md");
+    const doneContent = await readFile(donePath, "utf-8");
+    const doneStats = await stat(donePath);
+    const doneResult = parseKanbanFile(doneContent, "done");
+    doneCount = doneResult.count;
+    if (isNewer(doneStats.mtime, lastActivity)) {
+      lastActivity = doneStats.mtime;
     }
-  } catch (err) {
-    return {
-      success: false,
-      error: `Failed to read kanban files: ${err}`,
-    };
+  } catch {
+    // File doesn't exist or isn't readable
   }
 
   return {
     success: true,
     data: {
-      projectName: basename(cwd),
+      projectName,
       backlogCount,
       inProgressCount,
-      currentTask,
       doneCount,
+      currentTask,
       lastActivity,
     },
   };
 };
 
-export const formatStatus = (data: NonNullable<StatusResult["data"]>): string => {
+/**
+ * Format the status result for CLI output.
+ */
+export const formatStatus = (result: StatusResult): string => {
+  if (!result.success) {
+    return `✗ ${result.message}`;
+  }
+
+  const data = result.data!;
   const lines: string[] = [];
 
   lines.push(`rtfct: ${data.projectName}`);
@@ -152,24 +133,30 @@ export const formatStatus = (data: NonNullable<StatusResult["data"]>): string =>
   lines.push("══════════════════════════════════");
   lines.push("  The Litany of Tasks");
   lines.push("══════════════════════════════════");
-  lines.push(`  Backlog:      ${data.backlogCount} unordained task${data.backlogCount !== 1 ? "s" : ""}`);
+  lines.push(
+    `  Backlog:      ${data.backlogCount} unordained task${data.backlogCount === 1 ? "" : "s"}`
+  );
+  lines.push(
+    `  In Progress:  ${data.inProgressCount} ordained task${data.inProgressCount === 1 ? "" : "s"}`
+  );
 
   if (data.currentTask) {
-    lines.push(`  In Progress:  ${data.inProgressCount} ordained task`);
     lines.push(`    → [${data.currentTask.id}] ${data.currentTask.title}`);
-  } else {
-    lines.push("  In Progress:  No task ordained");
   }
 
-  lines.push(`  Completed:    ${data.doneCount} work${data.doneCount !== 1 ? "s" : ""} done`);
+  lines.push(
+    `  Completed:    ${data.doneCount} work${data.doneCount === 1 ? "" : "s"} done`
+  );
   lines.push("══════════════════════════════════");
   lines.push("");
 
   if (data.lastActivity) {
     lines.push(`Last activity: ${formatRelativeTime(data.lastActivity)}`);
-    lines.push("");
+  } else {
+    lines.push("Last activity: unknown");
   }
 
+  lines.push("");
   lines.push("The Omnissiah provides.");
 
   return lines.join("\n");

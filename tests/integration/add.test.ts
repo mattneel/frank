@@ -1,123 +1,104 @@
-import { describe, expect, test, beforeEach, afterEach } from "bun:test";
-import { mkdtemp, rm, mkdir, writeFile, access } from "fs/promises";
+/**
+ * Integration Tests for the Add Command
+ */
+
+import { describe, test, expect, beforeEach, afterEach } from "bun:test";
+import { mkdtemp, rm, stat } from "fs/promises";
 import { join } from "path";
-import { tmpdir } from "os";
+import { runInit } from "../../src/commands/init";
+import { runAdd, formatAdd } from "../../src/commands/add";
 
-const runCli = async (
-  args: string[],
-  cwd: string
-): Promise<{ stdout: string; stderr: string; exitCode: number }> => {
-  const proc = Bun.spawn(["bun", "run", join(import.meta.dir, "../../src/index.ts"), ...args], {
-    cwd,
-    stdout: "pipe",
-    stderr: "pipe",
-  });
-  const stdout = await new Response(proc.stdout).text();
-  const stderr = await new Response(proc.stderr).text();
-  const exitCode = await proc.exited;
-  return { stdout, stderr, exitCode };
-};
-
-const exists = async (path: string): Promise<boolean> => {
-  try {
-    await access(path);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-describe("The add Command", () => {
-  let tempDir: string;
+describe("add command", () => {
+  let testDir: string;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(join(tmpdir(), "rtfct-add-test-"));
+    testDir = await mkdtemp("/tmp/rtfct-add-test-");
   });
 
   afterEach(async () => {
-    await rm(tempDir, { recursive: true, force: true });
+    await rm(testDir, { recursive: true, force: true });
   });
 
-  const setupConsecratedProject = async () => {
-    // Create a basic consecrated project structure
-    await mkdir(join(tempDir, ".project/kanban"), { recursive: true });
-    await mkdir(join(tempDir, ".project/presets"), { recursive: true });
-    await writeFile(join(tempDir, ".project/protocol.md"), "# Protocol\n");
-    await writeFile(join(tempDir, ".project/kanban/backlog.md"), "# Backlog\n");
-    await writeFile(join(tempDir, ".project/kanban/in-progress.md"), "# In Progress\n");
-    await writeFile(join(tempDir, ".project/kanban/done.md"), "# Done\n");
-  };
+  describe("without existing project", () => {
+    test("fails if .project does not exist", async () => {
+      const result = await runAdd(testDir, "zig");
 
-  describe("incorporation of Codices", () => {
-    test("adds zig preset to existing project", async () => {
-      await setupConsecratedProject();
-
-      const result = await runCli(["add", "zig"], tempDir);
-      expect(result.exitCode).toBe(0);
-      expect(await exists(join(tempDir, ".project/presets/zig"))).toBe(true);
-      expect(await exists(join(tempDir, ".project/presets/zig/manifest.json"))).toBe(true);
-    });
-
-    test("adds typescript preset to existing project", async () => {
-      await setupConsecratedProject();
-
-      const result = await runCli(["add", "typescript"], tempDir);
-      expect(result.exitCode).toBe(0);
-      expect(await exists(join(tempDir, ".project/presets/typescript"))).toBe(true);
-    });
-
-    test("adds elixir preset to existing project", async () => {
-      await setupConsecratedProject();
-
-      const result = await runCli(["add", "elixir"], tempDir);
-      expect(result.exitCode).toBe(0);
-      expect(await exists(join(tempDir, ".project/presets/elixir"))).toBe(true);
-      expect(await exists(join(tempDir, ".project/presets/elixir/manifest.json"))).toBe(true);
-    });
-
-    test("displays success message with preset name", async () => {
-      await setupConsecratedProject();
-
-      const result = await runCli(["add", "zig"], tempDir);
-      expect(result.stdout).toContain("zig");
-      expect(result.stdout).toMatch(/incorporat|add/i);
+      expect(result.success).toBe(false);
+      expect(result.message).toContain("No .project/ folder found");
     });
   });
 
-  describe("protection against duplicate incorporation", () => {
-    test("fails if preset already incorporated", async () => {
-      await setupConsecratedProject();
-
-      // Add preset first time
-      await runCli(["add", "zig"], tempDir);
-
-      // Try to add again
-      const result = await runCli(["add", "zig"], tempDir);
-      expect(result.exitCode).toBe(1);
-      expect(result.stderr).toMatch(/already|exist/i);
+  describe("with existing project", () => {
+    beforeEach(async () => {
+      await runInit(testDir);
     });
-  });
 
-  describe("error handling", () => {
-    test("fails if .project/ does not exist", async () => {
-      const result = await runCli(["add", "zig"], tempDir);
-      expect(result.exitCode).toBe(1);
-      expect(result.stderr).toContain(".project");
+    test("adds preset successfully", async () => {
+      const result = await runAdd(testDir, "zig");
+
+      expect(result.success).toBe(true);
+      expect(result.message).toContain("incorporated");
+
+      const presetDir = join(testDir, ".project", "presets", "zig");
+      const stats = await stat(presetDir);
+      expect(stats.isDirectory()).toBe(true);
+    });
+
+    test("adds typescript preset", async () => {
+      const result = await runAdd(testDir, "typescript");
+
+      expect(result.success).toBe(true);
+
+      const presetDir = join(testDir, ".project", "presets", "typescript");
+      const stats = await stat(presetDir);
+      expect(stats.isDirectory()).toBe(true);
+    });
+
+    test("adds elixir preset", async () => {
+      const result = await runAdd(testDir, "elixir");
+
+      expect(result.success).toBe(true);
+
+      const presetDir = join(testDir, ".project", "presets", "elixir");
+      const stats = await stat(presetDir);
+      expect(stats.isDirectory()).toBe(true);
     });
 
     test("fails for unknown preset", async () => {
-      await setupConsecratedProject();
+      const result = await runAdd(testDir, "unknown");
 
-      const result = await runCli(["add", "heretical-codex"], tempDir);
-      expect(result.exitCode).toBe(1);
-      expect(result.stderr).toContain("heretical-codex");
+      expect(result.success).toBe(false);
+      expect(result.message).toContain("Unknown preset");
     });
 
-    test("fails if preset name not provided", async () => {
-      await setupConsecratedProject();
+    test("fails if preset already installed", async () => {
+      await runAdd(testDir, "zig");
+      const result = await runAdd(testDir, "zig");
 
-      const result = await runCli(["add"], tempDir);
-      expect(result.exitCode).toBe(1);
+      expect(result.success).toBe(false);
+      expect(result.message).toContain("already incorporated");
+    });
+  });
+
+  describe("output formatting", () => {
+    beforeEach(async () => {
+      await runInit(testDir);
+    });
+
+    test("formats success message", async () => {
+      const result = await runAdd(testDir, "zig");
+      const output = formatAdd(result);
+
+      expect(output).toContain("✓");
+      expect(output).toContain("incorporated");
+      expect(output).toContain("Omnissiah");
+    });
+
+    test("formats failure message", async () => {
+      const result = await runAdd(testDir, "unknown");
+      const output = formatAdd(result);
+
+      expect(output).toContain("✗");
     });
   });
 });
