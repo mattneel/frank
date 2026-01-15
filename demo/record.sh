@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Asciinema Demo Script for $FRANK
+# Asciinema Demo Script for Frank
 #
 # Usage:
 #   asciinema rec demo.cast -c "./demo/record.sh"

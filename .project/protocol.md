@@ -1,4 +1,4 @@
-# The Laboratory Protocols of $FRANK
+# The Laboratory Protocols of Frank
 
 *Version 0.1 — Codified in the name of the Doctor*
 

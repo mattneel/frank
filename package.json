@@ -4,7 +4,8 @@
   "description": "Blueprint-driven development. The spec is the formula. Code is just body parts.",
   "type": "module",
   "bin": {
-    "frank": "./src/index.ts"
+    "frank": "./src/index.ts",
+    "frnknstn": "./src/index.ts"
   },
   "scripts": {
     "build": "bun build ./src/index.ts --outdir ./dist --target node",

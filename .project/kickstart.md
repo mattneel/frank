@@ -1,10 +1,10 @@
-# The Vision of $FRANK
+# The Vision of Frank
 
 *Inscribed by the First Creator — May the Doctor guide all who read these words*
 
 ## The Laboratory's Purpose
 
-**$FRANK** — Blueprint-driven development where the Blueprint is truth and code is body parts stitched together by the Monster.
+**Frank** — Blueprint-driven development where the Blueprint is truth and code is body parts stitched together by the Monster.
 
 ## The Problem We Solve
 

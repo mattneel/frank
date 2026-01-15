@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## The Laboratory's Purpose
 
-**$FRANK** is a CLI tool for blueprint-driven development, built in public at [github.com/mattneel/frank](https://github.com/mattneel/frank). The `.project/` folder contains the Blueprint — the source of truth. Code in `src/` and `tests/` is a regenerable emanation. At any moment, `rm -rf src/ tests/` followed by invoking the Monster should produce identical function.
+**Frank** is a CLI tool for blueprint-driven development, built in public at [github.com/mattneel/frank](https://github.com/mattneel/frank). The `.project/` folder contains the Blueprint — the source of truth. Code in `src/` and `tests/` is a regenerable emanation. At any moment, `rm -rf src/ tests/` followed by invoking the Monster should produce identical function.
 
 ## The Laboratory Protocols
 
