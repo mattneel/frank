@@ -1,0 +1,43 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+
+  <!-- Subtle grid pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#151515" stroke-width="1"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.5"/>
+
+  <!-- ASCII Logo -->
+  <text x="600" y="200" text-anchor="middle" font-family="monospace" font-size="32" fill="#4ade80" filter="url(#glow)">
+    <tspan x="600" dy="0">    _____ ____      _    _   _ _  __</tspan>
+    <tspan x="600" dy="38">   |  ___|  _ \    / \  | \ | | |/ /</tspan>
+    <tspan x="600" dy="38">   | |_  | |_) |  / _ \ |  \| | ' /</tspan>
+    <tspan x="600" dy="38">   |  _| |  _ &lt;  / ___ \| |\  | . \</tspan>
+    <tspan x="600" dy="38">   |_|   |_| \_\/_/   \_\_| \_|_|\_\</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="420" text-anchor="middle" font-family="system-ui, sans-serif" font-size="36" fill="#888888" font-style="italic">
+    The code that won't stay dead.
+  </text>
+
+  <!-- Bottom text -->
+  <text x="600" y="520" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="#4ade80" filter="url(#glow)">
+    Blueprint-driven development
+  </text>
+
+  <!-- Lightning bolts decorative -->
+  <text x="100" y="315" font-size="60" fill="#4ade80" opacity="0.3">⚡</text>
+  <text x="1050" y="315" font-size="60" fill="#4ade80" opacity="0.3">⚡</text>
+</svg>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frank - The Code That Won't Stay Dead</title>
+  <meta name="description" content="Blueprint-driven development. The spec is the source of truth. Code is regenerable.">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mattneel.github.io/frank/">
+  <meta property="og:title" content="Frank">
+  <meta property="og:description" content="The code that won't stay dead.">
+  <meta property="og:image" content="https://mattneel.github.io/frank/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Frank">
+  <meta name="twitter:description" content="The code that won't stay dead.">
+  <meta name="twitter:image" content="https://mattneel.github.io/frank/og-image.png">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+  <!-- Hero -->
+  <section class="hero">
+    <pre class="ascii-logo" aria-label="FRANK">
+    _____ ____      _    _   _ _  __
+   |  ___|  _ \    / \  | \ | | |/ /
+   | |_  | |_) |  / _ \ |  \| | ' /
+   |  _| |  _ <  / ___ \| |\  | . \
+   |_|   |_| \_\/_/   \_\_| \_|_|\_\
+    </pre>
+    <p class="tagline">The code that won't stay dead.</p>
+
+    <div class="demo">
+      <img src="frank.gif" alt="Frank CLI demo showing init, status, and alive commands" loading="eager">
+    </div>
+
+    <div class="install">
+      <code>npx frank init</code>
+      <span class="or">or</span>
+      <code>bunx frank init</code>
+    </div>
+
+    <a href="https://github.com/mattneel/frank" class="github-btn">
+      <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      View on GitHub
+    </a>
+  </section>
+
+  <!-- Problem -->
+  <section class="problem">
+    <h2>The Problem</h2>
+    <p class="big">AI coding fails when specs are vague.</p>
+    <p>The Monster cannot rise from unclear instructions. But give it a clear blueprint?</p>
+    <p class="highlight">IT'S ALIVE!</p>
+  </section>
+
+  <!-- Solution -->
+  <section class="solution">
+    <h2>The Solution</h2>
+    <div class="flow">
+      <div class="flow-item">
+        <div class="folder">.project/</div>
+        <span class="label">The Blueprint</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">
+        <div class="folder">Claude</div>
+        <span class="label">The Monster</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">
+        <div class="folder">src/</div>
+        <span class="label">Body Parts</span>
+      </div>
+    </div>
+    <p class="mantra">Delete src/. Regenerate. Tests pass.</p>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how">
+    <h2>How It Works</h2>
+    <div class="terminal">
+      <div class="terminal-header">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+      </div>
+      <div class="terminal-body">
+        <div class="cmd"><span class="prompt">$</span> frank init<span class="comment"># assemble the laboratory</span></div>
+        <div class="cmd"><span class="prompt">$</span> frank add zig<span class="comment"># graft an organ</span></div>
+        <div class="cmd"><span class="prompt">$</span> frank status<span class="comment"># check vital signs</span></div>
+        <div class="cmd"><span class="prompt">$</span> frank alive<span class="comment"># the incantation</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy -->
+  <section class="philosophy">
+    <h2>The Philosophy</h2>
+    <blockquote class="incantation">
+      <p>The flesh is weak, but the blueprint is forever.</p>
+      <p>The code is stitched, but it can be unstitched.</p>
+      <p>Delete it all. The Monster rises again.</p>
+      <p>From blueprint, body. From body, life. From life, proof.</p>
+      <p class="alive">IT'S ALIVE!</p>
+    </blockquote>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="links">
+      <a href="https://github.com/mattneel/frank">GitHub</a>
+      <a href="https://www.npmjs.com/package/frnknstn">npm</a>
+    </div>
+    <p class="footer-tagline">The Monster rises.</p>
+  </footer>
+</body>
+</html>
