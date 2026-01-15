@@ -9,3 +9,6 @@ bun.lock
 
 # OS
 .DS_Store
+
+# Demo recordings (cast files are large)
+demo/*.cast

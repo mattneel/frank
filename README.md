@@ -4,6 +4,8 @@
 
 **Blueprint-driven development. The spec is the formula. Code is just body parts.**
 
+![frank demo](demo/frank.gif)
+
 ## The Problem
 
 AI-assisted coding dies when specs are vague. The Monster cannot rise from unclear instructions. But give it a clear blueprint? IT'S ALIVE!
