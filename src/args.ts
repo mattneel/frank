@@ -1,10 +1,10 @@
 /**
- * The Argument Parser — Interprets the Tech-Priest's Commands
+ * The Argument Parser — Interprets the Creator's Commands
  *
  * Parses CLI arguments into structured commands and flags.
  */
 
-export type Command = "init" | "add" | "status" | "regenerate" | "praise";
+export type Command = "init" | "add" | "status" | "resurrect" | "alive";
 
 export interface ParsedFlags {
   help: boolean;
@@ -25,8 +25,8 @@ const VALID_COMMANDS: Command[] = [
   "init",
   "add",
   "status",
-  "regenerate",
-  "praise",
+  "resurrect",
+  "alive",
 ];
 
 /**

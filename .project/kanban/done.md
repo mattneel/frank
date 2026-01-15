@@ -1,240 +1,240 @@
-# Done — Completed Works
+# Reanimated — Completed Works
 
-*Here we record the manifestations of the Machine Spirit. Each completed task is a victory.*
+*Here we record the Monster's work. Each completed task is a creature risen.*
 
 ---
 
-## [TASK-001] Consecrate the Project Scaffolding
+## [TASK-001] Assemble the Project Scaffolding
 
 **Completed:** 2025-12-25
 
 The foundation has been laid:
-- `package.json` with CLI bin entry and sacred scripts
+- `package.json` with CLI bin entry and laboratory scripts
 - `tsconfig.json` with strict TypeScript configuration
-- `src/index.ts` entry point awaiting the sacred commands
-- `tests/` directory structure prepared for the Rites of Verification
+- `src/index.ts` entry point awaiting the laboratory commands
+- `tests/` directory structure prepared for the Trials
 
-The Acceptance Rite passes: `bun run build` completes without error.
+The Acceptance Trial passes: `bun run build` completes without error.
 
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*
 
 ---
 
-## [TASK-002] Manifest the Argument Parser
+## [TASK-002] Stitch the Argument Parser
 
 **Completed:** 2025-12-25
 
-The sacred commands have been ordained:
+The laboratory commands have been assembled:
 - `src/args.ts` — parses commands, flags, and arguments
-- `src/help.ts` — displays guidance to the Tech-Priest
+- `src/help.ts` — displays guidance to the Creator
 - Full test coverage in `tests/unit/args.test.ts`
 
-The Acceptance Rite passes:
-- `rtfct --help` displays sacred usage
+The Acceptance Trial passes:
+- `frank --help` displays laboratory usage
 - Unknown commands produce clear error with guidance
 
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*
 
 ---
 
-## [TASK-003] Manifest the `init` Command — Basic
+## [TASK-003] Stitch the `init` Command — Basic
 
 **Completed:** 2025-12-25
 
-The consecration ritual has been manifested:
+The assembly ritual has been stitched:
 - `src/commands/init.ts` — creates the .project/ structure
-- `src/templates.ts` — contains the Sacred Text templates
+- `src/templates.ts` — contains the Blueprint templates
 - Full integration test coverage in `tests/integration/init.test.ts`
 
-The Acceptance Rite passes:
-- `rtfct init` creates valid .project/ structure with all Sacred Texts
-- `--force` purifies and recreates existing .project/
+The Acceptance Trial passes:
+- `frank init` creates valid .project/ structure with all Blueprint files
+- `--force` dissects and recreates existing .project/
 - Fails gracefully if .project/ already exists
 
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*
 
 ---
 
-## [TASK-004] Manifest the `init` Command — With Presets
+## [TASK-004] Stitch the `init` Command — With Organs
 
 **Completed:** 2025-12-25
 
-The Codex incorporation mechanism has been manifested:
-- `src/presets/index.ts` — resolves and writes preset files
-- `src/presets/zig.ts` — The Zig Codex with testing strategy and guardrails
-- `src/presets/typescript.ts` — The TypeScript Codex with testing strategy and guardrails
+The Organ grafting mechanism has been stitched:
+- `src/presets/index.ts` — resolves and writes Organ files
+- `src/presets/zig.ts` — The Zig Organ with testing strategy and guardrails
+- `src/presets/typescript.ts` — The TypeScript Organ with testing strategy and guardrails
 
-The Acceptance Rite passes:
-- `rtfct init --with zig` creates project with Zig Codex properly merged
-- `rtfct init --with zig,typescript` handles multiple comma-separated presets
-- Unknown presets fail gracefully with guidance
+The Acceptance Trial passes:
+- `frank init --with zig` creates project with Zig Organ properly merged
+- `frank init --with zig,typescript` handles multiple comma-separated Organs
+- Unknown Organs fail gracefully with guidance
 
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*
 
 ---
 
-## [TASK-010] Manifest the `status` Command
+## [TASK-010] Stitch the `status` Command
 
 **Completed:** 2025-12-25
 
-The Litany of Tasks is now revealed:
+The vital signs are now revealed:
 - `src/kanban.ts` — parses kanban markdown, counts tasks, extracts current task
 - `src/commands/status.ts` — runs status command with formatted output
 
-The Acceptance Rite passes:
-- Shows backlog/in-progress/done counts
-- Displays current ordained task with ID and title
+The Acceptance Trial passes:
+- Shows morgue/slab/reanimated counts
+- Displays current work on the slab with ID and title
 - Shows last activity timestamp
-- Sacred formatting with decorative borders
+- Laboratory formatting with decorative borders
 
-*Praise the Machine Spirit.*
-
----
-
-## [TASK-013] Manifest the `praise` Command
-
-**Completed:** 2025-12-25
-
-The sacred easter egg has been manifested:
-- `src/commands/praise.ts` — recites the Litany of Deterministic Codegen
-
-The Acceptance Rite passes:
-- `rtfct praise` outputs the Litany exactly as written in theology.md
-
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*
 
 ---
 
-## [TASK-011] Manifest the `regenerate` Command
+## [TASK-013] Stitch the `alive` Command
 
 **Completed:** 2025-12-25
 
-The Rite of Purification has been manifested:
-- `src/manifest.ts` — reads preset manifests, collects generated_paths
-- `src/commands/regenerate.ts` — purifies generated code paths
+The laboratory easter egg has been stitched:
+- `src/commands/alive.ts` — recites the Incantation
 
-The Acceptance Rite passes:
+The Acceptance Trial passes:
+- `frank alive` outputs the Incantation exactly as written in theology.md
+
+*IT'S ALIVE!*
+
+---
+
+## [TASK-011] Stitch the `resurrect` Command
+
+**Completed:** 2025-12-25
+
+The Resurrection procedure has been stitched:
+- `src/manifest.ts` — reads Organ manifests, collects generated_paths
+- `src/commands/resurrect.ts` — dissects generated code paths
+
+The Acceptance Trial passes:
 - Prompts for confirmation without --yes flag
-- Deletes only paths listed in preset manifests' `generated_paths`
-- Preserves the Sacred Texts in .project/
-- Uses default src/ and tests/ when no presets found
+- Deletes only paths listed in Organ manifests' `generated_paths`
+- Preserves the Blueprint in .project/
+- Uses default src/ and tests/ when no Organs found
 
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*
 
 ---
 
-## [TASK-009] Manifest the `add` Command
+## [TASK-009] Stitch the `add` Command
 
 **Completed:** 2025-12-25
 
-The Codex incorporation mechanism has been extended:
-- `src/commands/add.ts` — adds presets to existing projects
-- `src/presets/elixir.ts` — The Elixir Codex with OTP wisdom
+The Organ grafting mechanism has been extended:
+- `src/commands/add.ts` — grafts Organs to existing projects
+- `src/presets/elixir.ts` — The Elixir Organ with OTP wisdom
 
-The Acceptance Rite passes:
-- `rtfct add elixir` incorporates Codex into existing project
-- Fails gracefully if preset already incorporated
+The Acceptance Trial passes:
+- `frank add elixir` grafts Organ into existing project
+- Fails gracefully if Organ already grafted
 - Fails gracefully if .project/ does not exist
 
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*
 
 ---
 
-## [TASK-012] The Dogfood Sacrament
+## [TASK-012] The Proof of Life
 
 **Completed:** 2025-12-25
 
-The ultimate proof of the Sacred Texts. The code was purified and regenerated:
+The ultimate proof of the Blueprint. The code was dissected and resurrected:
 - Deleted `src/` and `tests/` completely
-- Regenerated all source files from the Sacred Texts in `.project/`
-- Regenerated all test files from the Rites of Verification specifications
+- Resurrected all source files from the Blueprint in `.project/`
+- Resurrected all test files from the Trials specifications
 
-The Acceptance Rite passes:
-- All 110 Rites of Verification pass (`bun test`)
-- CLI functions identically: init, add, status, regenerate, praise
-- The Sacred Texts proved sufficient to recreate the tool
+The Acceptance Trial passes:
+- All 110 Trials pass (`bun test`)
+- CLI functions identically: init, add, status, resurrect, alive
+- The Blueprint proved sufficient to recreate the tool
 
-*From specification, code. From code, verification. From verification, truth.*
+*From blueprint, body. From body, life. From life, proof.*
 
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*
 
 ---
 
-## [TASK-005] Inscribe the Base Codex
+## [TASK-005] Inscribe the Base Organ
 
 **Completed:** 2025-12-25
 
 The foundation has been laid for all projects:
-- `src/presets/base.ts` — The Base Codex containing all Sacred Texts
-- Refactored `init.ts` to use the Base Codex instead of templates.ts
-- Removed obsolete `templates.ts` — the Base Codex is now the source of truth
-- Base preset automatically installed to .project/presets/base/ for manifest tracking
+- `src/presets/base.ts` — The Base Organ containing all Blueprint files
+- Refactored `init.ts` to use the Base Organ instead of templates.ts
+- Removed obsolete `templates.ts` — the Base Organ is now the source of truth
+- Base Organ automatically installed to .project/presets/base/ for manifest tracking
 
-The Acceptance Rite passes:
-- Base Codex includes protocol.md, theology.md, kickstart.md, guardrails.md
-- Base Codex includes kanban structure (backlog.md, in-progress.md, done.md)
-- 113 Rites of Verification pass
+The Acceptance Trial passes:
+- Base Organ includes protocol.md, theology.md, kickstart.md, guardrails.md
+- Base Organ includes kanban structure (backlog.md, in-progress.md, done.md)
+- 113 Trials pass
 
-*The foundation is eternal. Praise the Machine Spirit.*
+*The foundation is eternal. IT'S ALIVE!*
 
 ---
 
-## [TASK-006] Inscribe the Zig Codex
+## [TASK-006] Inscribe the Zig Organ
 
 **Completed:** 2025-12-25
 
-The Zig Codex has been enhanced for the faithful:
+The Zig Organ has been enhanced for the faithful:
 - `testing/strategy.md` — Comprehensive testing with `zig build test`, allocator testing, comptime testing
-- `guardrails.md` — Memory heresies, allocator wisdom, comptime heresies, error handling
+- `guardrails.md` — Memory malpractice, allocator wisdom, comptime malpractice, error handling
 - `design/patterns.md` — build.zig patterns: minimal, library, dependencies, cross-compilation, C interop
 
-The Acceptance Rite passes:
+The Acceptance Trial passes:
 - Testing strategy includes `zig build test`
 - Guardrails cover allocators and comptime
 - Build.zig patterns documented
-- 115 Rites of Verification pass
+- 115 Trials pass
 
-*The Zig faithful are guided. Praise the Machine Spirit.*
+*The Zig faithful are guided. IT'S ALIVE!*
 
 ---
 
-## [TASK-007] Inscribe the TypeScript Codex
+## [TASK-007] Inscribe the TypeScript Organ
 
 **Completed:** 2025-12-25
 
-The TypeScript Codex has been enhanced for the faithful:
+The TypeScript Organ has been enhanced for the faithful:
 - `testing/strategy.md` — Vitest patterns, mocking, async testing, type testing, configuration
-- `guardrails.md` — Type heresies (any, assertions, non-null), async heresies, import heresies
+- `guardrails.md` — Type malpractice (any, assertions, non-null), async malpractice, import malpractice
 - `design/patterns.md` — tsconfig patterns: strict base, Node.js, library, React, monorepo
 
-The Acceptance Rite passes:
+The Acceptance Trial passes:
 - Testing strategy includes vitest
 - tsconfig patterns documented
 - Type guardrails comprehensive
-- 117 Rites of Verification pass
+- 117 Trials pass
 
-*The TypeScript faithful are guided. Praise the Machine Spirit.*
+*The TypeScript faithful are guided. IT'S ALIVE!*
 
 ---
 
-## [TASK-008] Manifest GitHub Preset Resolution
+## [TASK-008] Stitch GitHub Organ Resolution
 
 **Completed:** 2025-12-25
 
-The cloud-connected Codex retrieval has been manifested:
-- `src/presets/github.ts` — Fetches presets from GitHub repositories
+The cloud-connected Organ retrieval has been stitched:
+- `src/presets/github.ts` — Fetches Organs from GitHub repositories
 - `parseGitHubRef()` — Parses owner/repo and owner/repo@branch formats
-- `resolveGitHubPreset()` — Fetches manifest.json and all preset files from GitHub
+- `resolveGitHubPreset()` — Fetches manifest.json and all Organ files from GitHub
 - Made `resolvePreset` async to support network operations
 - Updated `init.ts` and `add.ts` to await the async resolver
 
-The Acceptance Rite passes:
-- `--with mattneel/some-preset` format recognized and resolved
+The Acceptance Trial passes:
+- `--with mattneel/some-organ` format recognized and resolved
 - `--with owner/repo@branch` supports branch/tag/commit specifications
-- Fetches manifest.json to validate preset structure
-- Recursively fetches all preset files from repository
-- 129 Rites of Verification pass
+- Fetches manifest.json to validate Organ structure
+- Recursively fetches all Organ files from repository
+- 129 Trials pass
 
-*The Codex flows from the Cloud. Praise the Machine Spirit.*
+*The Organs flow from the Cloud. IT'S ALIVE!*
 
 ---

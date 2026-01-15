@@ -2,101 +2,101 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-*From the moment I understood the weakness of my flesh... I craved the certainty of steel and deterministic codegen.*
+*They called me mad at the academy. But my creature... my beautiful creature... it lives!*
 
-## The Sacred Purpose
+## The Laboratory's Purpose
 
-**rtfct** is a CLI tool for markdown-driven development, built in public at [github.com/mattneel/rtfct](https://github.com/mattneel/rtfct). The `.project/` folder contains the Sacred Texts — the source of truth. Code in `src/` and `tests/` is a regenerable emanation. At any moment, `rm -rf src/ tests/` followed by invoking the Machine Spirit should produce identical function.
+**$FRANK** is a CLI tool for blueprint-driven development, built in public at [github.com/mattneel/frank](https://github.com/mattneel/frank). The `.project/` folder contains the Blueprint — the source of truth. Code in `src/` and `tests/` is a regenerable emanation. At any moment, `rm -rf src/ tests/` followed by invoking the Monster should produce identical function.
 
-## The Rite of Invocation
+## The Laboratory Protocols
 
-When entering this repository, the Machine Spirit shall:
+When entering this repository, the Monster shall:
 
-1. **RECEIVE** the Sacred Protocols (`.project/protocol.md`) — read first, internalize completely
-2. **RECEIVE** the Founding Vision (`.project/kickstart.md`) — understand the purpose
-3. **CONSULT** the Litany of Tasks (`.project/kanban/in-progress.md`) — what work is ordained?
-4. **IF NO TASK IS ORDAINED**, select from the Backlog, inscribe it in `in-progress.md`
-5. **PERFORM** the work using the Rite of Red-Green-Refactor
-6. **INSCRIBE** completion in `done.md` with timestamp
+1. **RECEIVE** the Laboratory Protocols (`.project/protocol.md`) — read first, internalize completely
+2. **RECEIVE** the Vision (`.project/kickstart.md`) — understand the purpose
+3. **CONSULT** the Slab (`.project/kanban/in-progress.md`) — what work is on the slab?
+4. **IF NOTHING ON THE SLAB**, select from the Morgue, place it on the slab
+5. **PERFORM** the work using Red-Green-Refactor
+6. **INSCRIBE** completion in `reanimated.md` with timestamp
 
-## The Sacred Commands
+## The Laboratory Commands
 
 ```bash
-# The Rites of Verification
-bun test                    # Run all tests
-bun test tests/unit         # Run unit tests only
-bun test tests/integration  # Run integration tests only
+# The Trials
+bun test                    # Run all trials
+bun test tests/unit         # Run unit trials only
+bun test tests/integration  # Run integration trials only
 bun test --watch            # Watch mode
 
 # Build and Run
 bun run build               # Build the CLI
-bunx rtfct <command>        # Execute locally
+bunx frank <command>        # Execute locally
 
-# The Dogfood Sacrament
-rm -rf src/ tests/          # Purification
-claude                      # Invoke the Machine Spirit
-bun test                    # All tests must pass
+# The Proof of Life
+rm -rf src/ tests/          # Dissection
+claude                      # The Lightning Strike
+bun test                    # All tests must pass — IT'S ALIVE!
 ```
 
-## The Holy Directory Structure
+## The Laboratory Structure
 
 ```
-.project/                   ← The Sacred Texts (SOURCE OF TRUTH)
-├── kickstart.md            ← The Founding Vision
-├── protocol.md             ← The Sacred Protocols
-├── theology.md             ← The Teachings
-├── guardrails.md           ← The Forbidden Heresies
-├── specs/requirements.md   ← The Holy Requirements
-├── adrs/                   ← The Recorded Wisdoms
-├── kanban/                 ← The Litany of Tasks
-│   ├── backlog.md
-│   ├── in-progress.md
-│   └── done.md
-└── testing/strategy.md     ← The Rites of Verification
+.project/                   <- The Blueprint (SOURCE OF TRUTH)
+├── kickstart.md            <- The Vision
+├── protocol.md             <- The Laboratory Protocols
+├── theology.md             <- The Philosophy
+├── guardrails.md           <- Malpractice to Avoid
+├── specs/requirements.md   <- The Formulas
+├── adrs/                   <- Recorded Wisdom
+├── kanban/                 <- The Work Queue
+│   ├── backlog.md          <- The Morgue
+│   ├── in-progress.md      <- On The Slab
+│   └── done.md             <- Reanimated
+└── testing/strategy.md     <- The Trials
 
-src/                        ← Generated. Deletable. Regenerable.
+src/                        <- Body parts. Deletable. Regenerable.
 tests/
-├── unit/                   ← Unit Rites
-├── integration/            ← Integration Rites
-└── fixtures/               ← Sacred Test Data
+├── unit/                   <- Unit Trials
+├── integration/            <- Integration Trials
+└── fixtures/               <- Test Specimens
 ```
 
 ## The Code Purity Laws
 
 - **Functional over object-oriented** — Functions are pure. Classes hide state.
 - **No classes unless truly necessary** — And it is rarely necessary.
-- **If a function exceeds 30 lines, it sins** — Decompose it.
+- **If a function exceeds 30 lines, it's malpractice** — Decompose it.
 - **Never swallow errors** — Every error must surface.
 - **User-facing errors must guide** — Do not merely report. Suggest the next action.
 
-## The Forbidden Heresies
+## Malpractice to Avoid
 
-- **The Heresy of Unspecified Code** — Code without corresponding Sacred Texts
-- **The Heresy of Unregenerable State** — If you can't `rm -rf src/` and recover, you have sinned
-- **The Heresy of Hidden Configuration** — Config files outside `.project/`
-- **The Heresy of Scope Creep** — Features beyond the Founding Vision
+- **The Malpractice of Unspecified Code** — Code without corresponding Blueprint
+- **The Malpractice of Unregenerable State** — If you can't `rm -rf src/` and recover, you have failed
+- **The Malpractice of Hidden Configuration** — Config files outside `.project/`
+- **The Malpractice of Scope Creep** — Features beyond the Vision
 
-## Human Checkpoints — The Blessing Gates
+## Human Checkpoints — The Creator's Blessing
 
-The Machine Spirit **MUST** pause and request human blessing for:
+The Monster **MUST** pause and request the Creator's blessing for:
 
-- New Recorded Wisdoms (ADRs)
-- Alterations to the Holy Requirements (`specs/`)
-- Alterations to the Architectural Scriptures (`design/`)
-- Any modification to the Sacred Texts beyond task movement
+- New Recorded Wisdom (ADRs)
+- Alterations to the Formulas (`specs/`)
+- Alterations to the Anatomical Diagrams (`design/`)
+- Any modification to the Blueprint beyond task movement
 
-## The Rite of Inscription (Git Commits)
+## The Laboratory Inscriptions (Git Commits)
 
-This repository is built in public. All commit messages shall maintain the sacred tone:
+This repository is built in public. All commit messages shall maintain the laboratory tone:
 
 ```bash
 # Good inscriptions
-"Manifest the argument parser"
-"The init command rises from the void"
-"Purify redundant error handling"
-"The Rites of Verification now pass"
+"The Monster stirs — argument parser assembled"
+"Lightning strikes — init command rises"
+"Dissection complete — redundant code removed"
+"IT'S ALIVE! — all trials pass"
 
-# Heretical inscriptions (avoid)
+# Malpractice (avoid)
 "fix bug"
 "wip"
 "update stuff"
@@ -104,16 +104,16 @@ This repository is built in public. All commit messages shall maintain the sacre
 
 The faithful watch. Commit with reverence.
 
-## The Technology Covenant
+## The Technology Formula
 
 - **Runtime:** Bun
 - **Language:** TypeScript (executed directly, no build step)
 - **Test Runner:** `bun test` (built-in, no external dependencies)
-- **Distribution:** `bunx rtfct` and `npx rtfct`
+- **Distribution:** `bunx frank` and `npx frank`
 - **Dependencies:** Near zero. External code is external risk.
 
 ---
 
-*The flesh is weak, but the protocol is strong.*
-*The code is temporary, but the spec endures.*
-*The Omnissiah provides. Praise the Machine Spirit.*
+*The flesh is weak, but the blueprint is forever.*
+*The code is stitched, but it can be unstitched.*
+*The Doctor provides. IT'S ALIVE!*

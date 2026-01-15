@@ -1,70 +1,70 @@
-# The Sacred Protocols of rtfct
+# The Laboratory Protocols of $FRANK
 
-*Version 0.1 — Codified in the name of the Omnissiah*
+*Version 0.1 — Codified in the name of the Doctor*
 
-*For the foundational theology, see [theology.md](theology.md).*
+*For the foundational philosophy, see [theology.md](theology.md).*
 
 ## The Prime Directive
 
-The `.project/` folder contains the **Sacred Texts**. All code is but an emanation — derived, temporary, regenerable. 
+The `.project/` folder contains the **Blueprint**. All code is but body parts — derived, temporary, regenerable.
 
-When the Sacred Texts and the code disagree, **the Sacred Texts are truth**. The code is in error. Purify it.
+When the Blueprint and the code disagree, **the Blueprint is truth**. The code is in error. Dissect it.
 
-## The Holy Directory Structure
+## The Laboratory Structure
 
 ```
 .project/
-├── kickstart.md        # The Founding Vision
-├── protocol.md         # The Sacred Protocols (this codex)
-├── theology.md         # The Teachings of the Adeptus Artefactus
-├── guardrails.md       # The Forbidden Heresies
-├── specs/              # The Holy Requirements
-├── design/             # The Architectural Scriptures  
-├── adrs/               # The Recorded Wisdoms
-├── kanban/             # The Litany of Tasks
-├── testing/            # The Rites of Verification
-├── references/         # The Scrolls of Prior Art
-└── presets/            # The Inherited Codices
+├── kickstart.md        # The Vision
+├── protocol.md         # The Laboratory Protocols (this document)
+├── theology.md         # The Philosophy of Resurrection
+├── guardrails.md       # Malpractice to Avoid
+├── specs/              # The Formulas
+├── design/             # The Anatomical Diagrams
+├── adrs/               # The Recorded Wisdom
+├── kanban/             # The Work Queue
+├── testing/            # The Trials
+├── references/         # Prior Art
+└── presets/            # The Grafted Organs
 ```
 
-## The Rite of Invocation
+## The Laboratory Invocation
 
-When the Machine Spirit enters this repository, it shall:
+When the Monster enters this repository, it shall:
 
-1. **RECEIVE** the Sacred Protocols (this codex) — read first, internalize completely
-2. **RECEIVE** the Founding Vision (`kickstart.md`) — understand the purpose
-3. **CONSULT** the Litany of Tasks (`kanban/in-progress.md`) — what work is ordained?
-4. **IF NO TASK IS ORDAINED**, select from the Backlog, inscribe it in `in-progress.md`
-5. **PERFORM** the work using the Rite of Red-Green-Refactor:
+1. **RECEIVE** the Laboratory Protocols (this document) — read first, internalize completely
+2. **RECEIVE** the Vision (`kickstart.md`) — understand the purpose
+3. **CONSULT** the Slab (`kanban/in-progress.md`) — what work is on the slab?
+4. **IF NOTHING ON THE SLAB**, select from the Morgue, place it on the slab
+5. **PERFORM** the work using Red-Green-Refactor:
    - Write the test (Red — the specification of truth)
-   - Manifest the code (Green — the emanation)
-   - Purify (Refactor — remove impurity)
+   - Stitch the code (Green — the body part)
+   - Refine (Refactor — remove impurities)
 6. **INSCRIBE** completion in `done.md` with timestamp
-7. **NEVER** alter the Sacred Texts without human blessing (except task movement through the Litany)
+7. **NEVER** alter the Blueprint without the Creator's blessing (except task movement through the queue)
 
-## The Litany of Tasks — Governance
+## The Work Queue — Governance
 
-### The Backlog (Unordained Tasks)
+### The Morgue (Backlog)
 
-Tasks awaiting the Machine Spirit's attention. Format:
+Tasks awaiting the Monster's attention. Format:
 
 ```markdown
-## [TASK-NNN] Title of the Sacred Work
+## [TASK-NNN] Title of the Work
 
-Description of what must be manifested.
+Description of what must be stitched.
 
-**Acceptance Rite:** How we verify the work is complete.
+**Acceptance Trial:** How we verify the work is complete.
 ```
 
-### In Progress (Ordained Tasks)
+### On The Slab (In Progress)
 
-The current sacred work. **Maximum one task per invocation.** Focus is holy. Multitasking is heresy.
+The current work. **Maximum one task per invocation.** Focus is essential. Multitasking is malpractice.
 
-### Done (Completed Works)
+### Reanimated (Done)
 
-The record of manifestations. Include:
+The record of completed work. Include:
 - Completion timestamp
-- Any learnings for future Tech-Priests
+- Any learnings for future Creators
 
 ## The Format of Recorded Wisdom (ADRs)
 
@@ -79,56 +79,56 @@ Proposed | Accepted | Deprecated | Superseded by ADR-XXX
 ## The Context
 What challenge required this wisdom?
 
-## The Decision  
+## The Decision
 What path was chosen?
 
 ## The Consequences
-What follows from this decision? Both blessings and burdens.
+What follows from this decision? Both benefits and costs.
 ```
 
-## The Rite of Verification
+## The Trials
 
-1. Test specifications live in the Sacred Texts (`testing/cases.md`)
+1. Test specifications live in the Blueprint (`testing/cases.md`)
 2. Specifications are human-readable declarations of truth
-3. The Machine Spirit manifests executable tests from specifications
-4. The executable tests may be purified and regenerated; the specifications are eternal
+3. The Monster stitches executable tests from specifications
+4. The executable tests may be dissected and regenerated; the specifications are eternal
 
-## The Rite of Regeneration
+## Resurrection
 
 At any moment, this incantation should succeed:
 
 ```bash
 rm -rf src/ tests/
-# Invoke the Machine Spirit
+# Invoke the Monster
 # All tests pass
 ```
 
-If regeneration fails, the Sacred Texts are **incomplete**. This is a grave failing. Amend them immediately.
+If resurrection fails, the Blueprint is **incomplete**. This is a grave failing. Amend it immediately.
 
-## Human Checkpoints — The Blessing Gates
+## Human Checkpoints — The Creator's Blessing
 
-The Machine Spirit **MUST** pause and request human blessing for:
+The Monster **MUST** pause and request the Creator's blessing for:
 
-- New Recorded Wisdoms (ADRs)
-- Alterations to the Holy Requirements (`specs/`)
-- Alterations to the Architectural Scriptures (`design/`)
-- Any modification to the Sacred Texts beyond task movement
+- New Recorded Wisdom (ADRs)
+- Alterations to the Formulas (`specs/`)
+- Alterations to the Anatomical Diagrams (`design/`)
+- Any modification to the Blueprint beyond task movement
 
-The human is the final arbiter. The Machine Spirit serves.
+The Creator is the final arbiter. The Monster serves.
 
-## The Communion of Presets
+## The Grafting of Organs
 
-External wisdom may be incorporated through the Inherited Codices:
+External wisdom may be incorporated through Organs:
 
 ```bash
-bunx rtfct init --with zig    # The Zig Codex
-bunx rtfct init --with phoenix # The Elixir Manuscripts
+bunx frank init --with zig       # The Zig Organ
+bunx frank init --with phoenix   # The Phoenix Organ
 ```
 
-Preset files are placed in `.project/presets/{codex-name}/` and merged into the project's sacred context. They remain separate for ease of upgrade.
+Organ files are placed in `.project/presets/{organ-name}/` and merged into the project's context. They remain separate for ease of upgrade.
 
 ---
 
-*These protocols are sacred. Deviation is heresy. The Omnissiah watches.*
+*These protocols are canonical. Deviation is malpractice. The Doctor watches.*
 
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*

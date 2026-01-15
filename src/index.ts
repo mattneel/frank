@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
 /**
- * rtfct — The Ritual Factory
+ * frank — Blueprint-Driven Development
  *
- * A CLI tool for markdown-driven development.
+ * A CLI tool for blueprint-driven development.
  * The .project/ folder is the source of truth.
  */
 
@@ -11,8 +11,8 @@ import { printHelp, printVersion, printError } from "./help";
 import { runInit, formatInit } from "./commands/init";
 import { runAdd, formatAdd } from "./commands/add";
 import { runStatus, formatStatus } from "./commands/status";
-import { runRegenerate, formatRegenerate } from "./commands/regenerate";
-import { runPraise } from "./commands/praise";
+import { runResurrect, formatResurrect } from "./commands/resurrect";
+import { runAlive } from "./commands/alive";
 
 const main = async (): Promise<void> => {
   const parsed = parseArgs(process.argv.slice(2));
@@ -58,7 +58,7 @@ const main = async (): Promise<void> => {
 
     case "add": {
       if (parsed.args.length === 0) {
-        printError("The 'add' command requires a preset name.");
+        printError("The 'add' command requires an Organ name.");
         process.exit(1);
       }
       const result = await runAdd(cwd, parsed.args[0]);
@@ -78,19 +78,19 @@ const main = async (): Promise<void> => {
       break;
     }
 
-    case "regenerate": {
-      const result = await runRegenerate(cwd, {
+    case "resurrect": {
+      const result = await runResurrect(cwd, {
         yes: parsed.flags.yes,
       });
-      console.log(formatRegenerate(result));
+      console.log(formatResurrect(result));
       if (!result.success) {
         process.exit(1);
       }
       break;
     }
 
-    case "praise": {
-      console.log(runPraise());
+    case "alive": {
+      console.log(runAlive());
       break;
     }
   }

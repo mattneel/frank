@@ -59,7 +59,7 @@ describe("resolvePresetSync", () => {
     const result = resolvePresetSync("unknown");
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error).toContain("Unknown built-in preset");
+      expect(result.error).toContain("Unknown built-in Organ");
     }
   });
 });
@@ -82,7 +82,7 @@ describe("resolvePreset (async)", () => {
     const result = await resolvePreset("unknown");
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error).toContain("Unknown preset");
+      expect(result.error).toContain("Unknown Organ");
     }
   });
 
@@ -90,7 +90,7 @@ describe("resolvePreset (async)", () => {
     const result = await resolvePreset("./local-preset");
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error).toContain("Local presets not yet supported");
+      expect(result.error).toContain("Local Organs not yet supported");
     }
   });
 
@@ -98,7 +98,7 @@ describe("resolvePreset (async)", () => {
     const result = await resolvePreset("/absolute/path");
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error).toContain("Local presets not yet supported");
+      expect(result.error).toContain("Local Organs not yet supported");
     }
   });
 

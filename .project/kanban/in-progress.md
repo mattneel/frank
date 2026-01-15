@@ -1,11 +1,11 @@
-# In Progress — Currently Ordained Tasks
+# On The Slab — Current Work
 
-*The Machine Spirit focuses on one task at a time. Multitasking is heresy.*
-
----
-
-*No task currently ordained. Select from the Backlog.*
+*The Monster focuses on one body at a time. Multitasking is malpractice.*
 
 ---
 
-*Focus is holy. Complete the ordained task before selecting another.*
+*No body currently on the slab. Select from the Morgue.*
+
+---
+
+*Focus is essential. Complete the current work before selecting another.*

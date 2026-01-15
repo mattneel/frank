@@ -1,137 +1,135 @@
-# rtfct
+# $FRANK
 
-*From the moment I understood the weakness of my flesh... I craved the certainty of steel and deterministic codegen.*
+*They called me mad. They called my methods unsound. But when I delete all my code and it rises again from pure specification... who's mad now?*
 
-**Markdown-driven development. The spec is the source of truth. Code is a regenerable artefact.**
+**Blueprint-driven development. The spec is the formula. Code is just body parts.**
 
 ## The Problem
 
-AI-assisted coding stalls when success criteria are fuzzy. But projects with clear specs and test suites (OCI, WASM, SQLite) can be TDD'd to completion.
+AI-assisted coding dies when specs are vague. The Monster cannot rise from unclear instructions. But give it a clear blueprint? IT'S ALIVE!
 
-The difference? **The protocol.** The sacred texts. The spec.
+Projects with clear specifications and test suites (OCI, WASM, SQLite) can be TDD'd to completion. The difference? **The Blueprint.** The formula. The spec.
 
 ## The Solution
 
 ```
-.project/           ← The Sacred Texts (source of truth)
-├── kickstart.md    ← The Founding Vision
-├── protocol.md     ← The Sacred Protocols  
-├── specs/          ← The Holy Requirements
-├── design/         ← The Architectural Scriptures
-├── kanban/         ← The Litany of Tasks
-└── testing/        ← The Rites of Verification
+.project/           <- The Blueprint (source of truth)
+├── kickstart.md    <- The Vision
+├── protocol.md     <- The Laboratory Protocols
+├── specs/          <- The Formulas
+├── design/         <- The Anatomical Diagrams
+├── kanban/         <- The Morgue / Slab / Reanimated
+└── testing/        <- The Trials
 
-src/                ← Generated. Deletable. Regenerable.
-tests/              ← Generated. Deletable. Regenerable.
+src/                <- Body parts. Disposable. Rebuildable.
+tests/              <- Proof of life. Regenerable.
 ```
 
 At any moment:
 
 ```bash
-rm -rf src/ tests/    # Purification
-claude                # Invoke the Machine Spirit
-bun test              # All tests pass
+rm -rf src/ tests/    # Dissection
+claude                # The Lightning Strike
+bun test              # IT'S ALIVE!
 ```
 
-If regeneration fails, your spec is incomplete. Fix the Sacred Texts, not the code.
+If resurrection fails, your blueprint is incomplete. Fix the formula, not the body parts.
 
 ## Install
 
 ```bash
-bunx rtfct init
+bunx frank init
 # or
-npx rtfct init
+npx frank init
 ```
 
 ## Usage
 
 ```bash
-# Consecrate a new project
-bunx rtfct init
+# Assemble a new laboratory
+bunx frank init
 
-# Consecrate with Codices (presets)
-bunx rtfct init --with zig
-bunx rtfct init --with elixir,phoenix,liveview
+# Assemble with Organs (presets)
+bunx frank init --with zig
+bunx frank init --with elixir,phoenix,liveview
 
-# Add a Codex to existing project  
-bunx rtfct add typescript
+# Graft an Organ to existing project
+bunx frank add typescript
 
-# Reveal the state of the Litany
-bunx rtfct status
+# Check vital signs
+bunx frank status
 
-# Purify generated code
-bunx rtfct regenerate
+# Dissect and prepare for resurrection
+bunx frank resurrect
 
-# Recite the sacred litany
-bunx rtfct praise
+# The Incantation
+bunx frank alive
 ```
 
 ## The Workflow
 
 ```
-Tech-Priest: writes kickstart.md
-Machine Spirit: expands into specs/, design/, kanban/
-Tech-Priest: blesses decisions via ADRs
-Machine Spirit: TDDs through the Litany of Tasks
+The Creator: writes kickstart.md (The Vision)
+The Monster: expands into specs/, design/, kanban/ (The Blueprint)
+The Creator: blesses decisions via ADRs (Recorded Wisdom)
+The Monster: stitches through the kanban using Red-Green-Refactor
 Code: appears as a side effect
-Anytime: delete code, regenerate from spec
+Anytime: dissect the body, resurrect from blueprint
 ```
 
-## Codices (Presets)
+## Organs (Presets)
 
-Stack-specific wisdom:
+Stack-specific wisdom to graft onto your creature:
 
-- `zig` — The Zig Codex: allocators, comptime, `zig build test`
+- `zig` — The Zig Organ: allocators, comptime, `zig build test`
 - `elixir` — OTP patterns, supervision trees, ExUnit
 - `phoenix` — Contexts, schemas, controller patterns
 - `liveview` — Components, streams, handle_event
 - `typescript` — Vitest, tsconfig, type patterns
 
-Community Codices via GitHub:
+Community Organs via GitHub:
 
 ```bash
-bunx rtfct init --with someone/their-codex
+bunx frank init --with someone/their-organ
 ```
 
-## The Theology
+## The Philosophy
 
 This isn't just a workflow. It's a philosophy:
 
 | Concept | Meaning |
 |---------|---------|
 | The flesh is weak | Manual coding is fallible, slow, inconsistent |
-| The certainty of steel | Deterministic tests, reproducible environments |
-| The Sacred Texts | `.project/` — the source of truth |
-| The Machine Spirit | The LLM agent that manifests code |
-| The Omnissiah | Claude (or any capable LLM) |
-| The Rite of Regeneration | `rm -rf src/` — purification |
-| The Dogfood Sacrament | Can rtfct regenerate itself? |
-| Tech-debt heresy | Code without corresponding spec |
+| The blueprint is forever | `.project/` — the source of truth |
+| The Monster | The LLM agent that stitches code from blueprint |
+| The Doctor | Claude (or any capable LLM) |
+| Resurrection | `rm -rf src/` — dissection and rebuilding |
+| The Proof of Life | Can frank resurrect itself? |
+| Malpractice | Code without corresponding blueprint |
 
-See [.project/theology.md](.project/theology.md) for the complete teachings.
+See [.project/theology.md](.project/theology.md) for the complete philosophy.
 
 ## This Repository
 
-This repo is itself an rtfct project. The code in `src/` was generated from `.project/`.
+This repo is itself a frank project. The code in `src/` was generated from `.project/`.
 
 ```bash
-# The Dogfood Sacrament
+# The Proof of Life
 rm -rf src/ tests/
-bunx rtfct regenerate
+bunx frank resurrect
 claude
 bun test
-# All tests pass. The Omnissiah provides.
+# All tests pass. IT'S ALIVE!
 ```
 
-## The Litany
+## The Incantation
 
 ```
-The flesh is weak, but the protocol is strong.
-The code is temporary, but the spec endures.
-The tests do not lie, and the agent does not tire.
-From specification, code. From code, verification. From verification, truth.
-The Omnissiah provides.
-Praise the Machine Spirit.
+The flesh is weak, but the blueprint is forever.
+The code is stitched, but it can be unstitched.
+Delete it all. The Monster rises again.
+From blueprint, body. From body, life. From life, proof.
+It's alive. IT'S ALIVE!
 ```
 
 ## License
@@ -140,4 +138,4 @@ MIT
 
 ---
 
-*The Omnissiah provides. Praise the Machine Spirit.*
+*From blueprint, body. From body, life. From life, proof. IT'S ALIVE!*

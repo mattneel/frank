@@ -1,125 +1,124 @@
-# The Holy Requirements
+# The Formulas
 
-*These are the commandments for the CLI manifestation. The Machine Spirit shall implement exactly this, no more, no less.*
+*These are the commandments for the CLI. The Monster shall implement exactly this, no more, no less.*
 
-## The Sacred Commands
+## The Laboratory Commands
 
-### `bunx rtfct init`
+### `bunx frank init`
 
-**Purpose:** Consecrate a new directory with the Sacred Texts.
+**Purpose:** Assemble a new laboratory with the Blueprint.
 
-**The Rite:**
+**The Procedure:**
 - Creates `.project/` folder structure
 - Inscribes the base protocol files
-- Creates empty `kickstart.md` for the Tech-Priest to fill
+- Creates empty `kickstart.md` for the Creator to fill
 - **Fails** if `.project/` already exists (unless `--force` is invoked)
 
-**Sacred Flags:**
-- `--with <presets>` — Comma-separated list of Codices to include
-- `--force` — Purify existing `.project/` and recreate
-- `--help` — Display the sacred usage
+**Flags:**
+- `--with <organs>` — Comma-separated list of Organs to graft
+- `--force` — Dissect existing `.project/` and recreate
+- `--help` — Display usage
 
-**Acceptance Rite:** Running `bunx rtfct init` in an empty directory creates a valid `.project/` structure with all base files.
-
----
-
-### `bunx rtfct add <preset>`
-
-**Purpose:** Incorporate an additional Codex into an existing consecrated project.
-
-**The Rite:**
-- Downloads/copies preset files to `.project/presets/{name}/`
-- Merges preset references into project context
-- **Fails** if preset already incorporated
-
-**Acceptance Rite:** `bunx rtfct add zig` adds the Zig Codex to an existing rtfct project.
+**Acceptance Trial:** Running `bunx frank init` in an empty directory creates a valid `.project/` structure with all base files.
 
 ---
 
-### `bunx rtfct status`
+### `bunx frank add <organ>`
 
-**Purpose:** Reveal the state of the Litany of Tasks.
+**Purpose:** Graft an additional Organ into an existing laboratory.
+
+**The Procedure:**
+- Downloads/copies Organ files to `.project/presets/{name}/`
+- Merges Organ references into project context
+- **Fails** if Organ already grafted
+
+**Acceptance Trial:** `bunx frank add zig` adds the Zig Organ to an existing frank project.
+
+---
+
+### `bunx frank status`
+
+**Purpose:** Check vital signs of the work queue.
 
 **The Output:**
 ```
-rtfct: my-project
+frank: my-project
 
 ══════════════════════════════════
-  The Litany of Tasks
+  The Work Queue
 ══════════════════════════════════
-  Backlog:      3 unordained tasks
-  In Progress:  1 ordained task
+  Morgue:       3 bodies awaiting
+  On The Slab:  1 body in progress
     → [TASK-004] Implement user auth
-  Completed:    7 works done
+  Reanimated:   7 creatures risen
 ══════════════════════════════════
 
 Last activity: 2 hours ago
 
-The Omnissiah provides.
+IT'S ALIVE!
 ```
 
-**Acceptance Rite:** Running `bunx rtfct status` parses kanban markdown and displays accurate counts.
+**Acceptance Trial:** Running `bunx frank status` parses kanban markdown and displays accurate counts.
 
 ---
 
-### `bunx rtfct regenerate`
+### `bunx frank resurrect`
 
-**Purpose:** Purify the codebase, preparing for regeneration.
+**Purpose:** Dissect the codebase, preparing for resurrection.
 
-**The Rite:**
-- Prompts for confirmation ("Are you certain? This will purify all generated code.")
-- Deletes `src/`, `tests/`, and any other paths marked in preset manifests
-- Prints instruction to invoke the Machine Spirit
+**The Procedure:**
+- Prompts for confirmation ("Are you certain? This will dissect all generated code.")
+- Deletes `src/`, `tests/`, and any other paths marked in Organ manifests
+- Prints instruction to invoke the Monster
 
-**Acceptance Rite:** After confirmation, only deletes paths listed in `generated_paths` of manifests. Sacred Texts are untouched.
+**Acceptance Trial:** After confirmation, only deletes paths listed in `generated_paths` of manifests. Blueprint is untouched.
 
 ---
 
-### `bunx rtfct praise`
+### `bunx frank alive`
 
-**Purpose:** Recite the Litany of Deterministic Codegen.
+**Purpose:** Recite the Incantation.
 
 **The Output:**
 ```
-The flesh is weak, but the protocol is strong.
-The code is temporary, but the spec endures.
-The tests do not lie, and the agent does not tire.
-From specification, code. From code, verification. From verification, truth.
-The Omnissiah provides.
-Praise the Machine Spirit.
+The flesh is weak, but the blueprint is forever.
+The code is stitched, but it can be unstitched.
+Delete it all. The Monster rises again.
+From blueprint, body. From body, life. From life, proof.
+It's alive. IT'S ALIVE!
 ```
 
-**Acceptance Rite:** Running `bunx rtfct praise` outputs the sacred litany exactly.
+**Acceptance Trial:** Running `bunx frank alive` outputs the incantation exactly.
 
 ---
 
-## Preset Resolution — The Codex Lookup
+## Organ Resolution — The Lookup
 
-Presets (Codices) may be specified as:
+Organs may be specified as:
 
 | Format | Example | Resolution |
 |--------|---------|------------|
-| Built-in | `zig` | Bundled with rtfct |
+| Built-in | `zig` | Bundled with frank |
 | GitHub | `mattneel/zig-ml` | Fetched from `github.com/mattneel/zig-ml` |
-| Local | `./path/to/preset` | Read from filesystem |
+| Local | `./path/to/organ` | Read from filesystem |
 
 ---
 
-## Preset Structure — The Codex Format
+## Organ Structure — The Format
 
-A Codex is a folder containing:
+An Organ is a folder containing:
 
 ```
-codex-name/
+organ-name/
 ├── manifest.json       # Metadata, dependencies, generated paths
 ├── protocol.md         # Additions to base protocol (optional)
-├── guardrails.md       # Stack-specific heresies to avoid
+├── guardrails.md       # Stack-specific malpractice to avoid
 ├── testing/
-│   └── strategy.md     # How to perform the Rites of Verification
+│   └── strategy.md     # How to perform the Trials
 ├── design/
-│   └── patterns.md     # Common architectural patterns (optional)
+│   └── patterns.md     # Common anatomical patterns (optional)
 └── references/
-    └── ...             # Relevant external scrolls
+    └── ...             # Relevant prior art
 ```
 
 ### The manifest.json Schema
@@ -127,8 +126,8 @@ codex-name/
 ```json
 {
   "name": "phoenix",
-  "version": "0.1.0", 
-  "description": "The Phoenix Framework Codex",
+  "version": "0.1.0",
+  "description": "The Phoenix Organ",
   "depends": ["elixir"],
   "generated_paths": ["lib/", "test/", "priv/"]
 }
@@ -136,17 +135,17 @@ codex-name/
 
 ---
 
-## Merging Behavior — The Communion
+## Merging Behavior — The Grafting
 
-When multiple Codices are incorporated:
+When multiple Organs are incorporated:
 
-1. `depends` are resolved first (depth-first, like a tree of wisdom)
+1. `depends` are resolved first (depth-first, like a tree of body parts)
 2. Files are copied to `.project/presets/{name}/`
-3. `generated_paths` are unioned for the Rite of Regeneration
-4. Conflicts in same-named files: last Codex wins (with warning to the Tech-Priest)
+3. `generated_paths` are unioned for Resurrection
+4. Conflicts in same-named files: last Organ wins (with warning to the Creator)
 
 ---
 
 *These requirements are immutable until blessed otherwise.*
 
-*The Machine Spirit shall manifest exactly this.*
+*The Monster shall stitch exactly this.*

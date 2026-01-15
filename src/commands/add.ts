@@ -1,7 +1,7 @@
 /**
- * The Add Command — Incorporate a Codex into an Existing Project
+ * The Add Command — Graft an Organ into an Existing Project
  *
- * Adds a preset to an already consecrated project.
+ * Adds a preset to an already assembled laboratory.
  */
 
 import { stat } from "fs/promises";
@@ -14,7 +14,7 @@ export interface AddResult {
 }
 
 /**
- * Run the add command to incorporate a preset.
+ * Run the add command to graft an Organ.
  */
 export const runAdd = async (
   targetDir: string,
@@ -29,14 +29,14 @@ export const runAdd = async (
       return {
         success: false,
         message:
-          "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
+          "No .project/ folder found. Run 'frank init' first to assemble the laboratory.",
       };
     }
   } catch {
     return {
       success: false,
       message:
-        "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
+        "No .project/ folder found. Run 'frank init' first to assemble the laboratory.",
     };
   }
 
@@ -53,7 +53,7 @@ export const runAdd = async (
   if (await isPresetInstalled(targetDir, result.preset.name)) {
     return {
       success: false,
-      message: `Preset '${presetName}' is already incorporated into this project.`,
+      message: `Organ '${presetName}' is already grafted into this project.`,
     };
   }
 
@@ -62,7 +62,7 @@ export const runAdd = async (
 
   return {
     success: true,
-    message: `Codex '${presetName}' has been incorporated.`,
+    message: `Organ '${presetName}' has been grafted.`,
   };
 };
 
@@ -71,7 +71,7 @@ export const runAdd = async (
  */
 export const formatAdd = (result: AddResult): string => {
   if (result.success) {
-    return `✓ ${result.message}\n\nThe Omnissiah provides.`;
+    return `✓ ${result.message}\n\nIT'S ALIVE!`;
   } else {
     return `✗ ${result.message}`;
   }

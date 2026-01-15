@@ -12,7 +12,7 @@ describe("status command", () => {
   let testDir: string;
 
   beforeEach(async () => {
-    testDir = await mkdtemp("/tmp/rtfct-status-test-");
+    testDir = await mkdtemp("/tmp/frank-status-test-");
   });
 
   afterEach(async () => {
@@ -127,18 +127,18 @@ Working on it.
       const result = await runStatus(testDir);
       const output = formatStatus(result);
 
-      expect(output).toContain("rtfct:");
-      expect(output).toContain("Litany of Tasks");
-      expect(output).toContain("Backlog:");
-      expect(output).toContain("In Progress:");
-      expect(output).toContain("Completed:");
-      expect(output).toContain("Omnissiah");
+      expect(output).toContain("frank:");
+      expect(output).toContain("Work Queue");
+      expect(output).toContain("Morgue:");
+      expect(output).toContain("On The Slab:");
+      expect(output).toContain("Reanimated:");
+      expect(output).toContain("IT'S ALIVE!");
     });
 
     test("formats current task", async () => {
       const inProgressContent = `# In Progress
 
-## [TASK-007] The Holy Task
+## [TASK-007] The Laboratory Task
 `;
       await writeFile(
         join(testDir, ".project", "kanban", "in-progress.md"),
@@ -149,12 +149,12 @@ Working on it.
       const output = formatStatus(result);
 
       expect(output).toContain("[TASK-007]");
-      expect(output).toContain("The Holy Task");
+      expect(output).toContain("The Laboratory Task");
     });
 
     test("formats failure output", async () => {
       await rm(testDir, { recursive: true, force: true });
-      testDir = await mkdtemp("/tmp/rtfct-status-test-");
+      testDir = await mkdtemp("/tmp/frank-status-test-");
 
       const result = await runStatus(testDir);
       const output = formatStatus(result);

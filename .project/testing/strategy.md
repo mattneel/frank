@@ -1,14 +1,14 @@
-# The Rites of Verification
+# The Trials
 
-*The tests do not lie, and the agent does not tire.*
+*The tests do not lie, and the Monster does not tire.*
 
-## The Sacred Approach
+## The Approach
 
-rtfct is a CLI tool. The Rites of Verification focus on:
+frank is a CLI tool. The Trials focus on:
 
-1. **Unit Rites** — Individual functions tested in isolation (preset parsing, manifest validation)
-2. **Integration Rites** — Full CLI commands tested against temporary directories
-3. **The Dogfood Sacrament** — Can rtfct regenerate itself?
+1. **Unit Trials** — Individual functions tested in isolation (organ parsing, manifest validation)
+2. **Integration Trials** — Full CLI commands tested against temporary directories
+3. **The Proof of Life** — Can frank resurrect itself?
 
 ## The Test Runner
 
@@ -20,104 +20,104 @@ No external dependencies. Bun provides.
 
 ```
 tests/
-├── unit/                      # Unit Rites
+├── unit/                      # Unit Trials
 │   ├── preset.test.ts
 │   ├── manifest.test.ts
 │   └── kanban-parser.test.ts
-├── integration/               # Integration Rites
+├── integration/               # Integration Trials
 │   ├── init.test.ts
 │   ├── add.test.ts
 │   ├── status.test.ts
-│   ├── regenerate.test.ts
-│   └── praise.test.ts
-└── fixtures/                  # Sacred Test Data
-    ├── valid-preset/
-    ├── invalid-preset/
+│   ├── resurrect.test.ts
+│   └── alive.test.ts
+└── fixtures/                  # Test Specimens
+    ├── valid-organ/
+    ├── invalid-organ/
     └── sample-project/
 ```
 
-## The Integration Rite Pattern
+## The Integration Trial Pattern
 
-Each Integration Rite shall:
+Each Integration Trial shall:
 
-1. Consecrate a temporary directory
+1. Assemble a temporary directory
 2. Invoke the CLI command
 3. Assert upon the resulting file structure
-4. Purify (clean up) the temporary directory
+4. Clean up the temporary directory
 
 ```typescript
 import { test, expect } from "bun:test";
 import { mkdtemp, rm } from "fs/promises";
 import { join } from "path";
 
-test("init consecrates .project folder", async () => {
-  // Consecrate temporary space
-  const tmp = await mkdtemp("/tmp/rtfct-test-");
-  
-  // Invoke the sacred command
-  await run(`rtfct init`, { cwd: tmp });
-  
-  // Verify the Sacred Texts exist
+test("init assembles .project folder", async () => {
+  // Assemble temporary space
+  const tmp = await mkdtemp("/tmp/frank-test-");
+
+  // Invoke the command
+  await run(`frank init`, { cwd: tmp });
+
+  // Verify the Blueprint exists
   expect(await exists(join(tmp, ".project/protocol.md"))).toBe(true);
   expect(await exists(join(tmp, ".project/kickstart.md"))).toBe(true);
   expect(await exists(join(tmp, ".project/theology.md"))).toBe(true);
   expect(await exists(join(tmp, ".project/kanban/backlog.md"))).toBe(true);
-  
-  // Purify
+
+  // Clean up
   await rm(tmp, { recursive: true });
 });
 ```
 
-## The Dogfood Sacrament
+## The Proof of Life
 
-The ultimate Rite. If rtfct cannot regenerate itself, it is unworthy:
+The ultimate Trial. If frank cannot resurrect itself, it is unworthy:
 
 ```bash
-# From the rtfct repository root
-cd rtfct
+# From the frank repository root
+cd frank
 
-# Purify all generated code
+# Dissect all generated code
 rm -rf src/ tests/
 
-# Invoke the Rite of Regeneration
-bunx rtfct regenerate --yes
+# Invoke Resurrection
+bunx frank resurrect --yes
 
-# Summon the Machine Spirit
+# Summon the Monster
 claude
 
-# The Machine Spirit works...
+# The Monster works...
 
-# Perform all Rites of Verification
+# Perform all Trials
 bun test
 
 # All tests MUST pass
 ```
 
-If the Dogfood Sacrament succeeds, the Sacred Texts are complete. The protocol works. The Omnissiah is pleased.
+If the Proof of Life succeeds, the Blueprint is complete. The protocol works. IT'S ALIVE!
 
-If it fails, the Sacred Texts are **incomplete**. Amend them. Try again.
+If it fails, the Blueprint is **incomplete**. Amend it. Try again.
 
 ## Coverage Doctrine
 
-- **100%** of CLI commands have Integration Rites
-- **All** non-trivial parsing logic has Unit Rites
-- **The Dogfood Sacrament** runs in CI on every push
+- **100%** of CLI commands have Integration Trials
+- **All** non-trivial parsing logic has Unit Trials
+- **The Proof of Life** runs in CI on every push
 - Uncovered code is sus. Investigate it.
 
-## The Red-Green-Refactor Rite
+## The Red-Green-Refactor Procedure
 
 When implementing each task:
 
 1. **RED** — Write the test first. Watch it fail. The failure is truth.
 2. **GREEN** — Write the minimum code to pass. No more.
-3. **REFACTOR** — Purify the code. Remove duplication. Simplify.
+3. **REFACTOR** — Refine the code. Remove duplication. Simplify.
 
-This is the way. Deviation is heresy.
+This is the way. Deviation is malpractice.
 
 ---
 
-*The tests do not lie, and the agent does not tire.*
+*The tests do not lie, and the Monster does not tire.*
 
-*From specification, code. From code, verification. From verification, truth.*
+*From blueprint, body. From body, life. From life, proof.*
 
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*

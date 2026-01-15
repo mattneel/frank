@@ -1,5 +1,5 @@
 /**
- * Integration Tests for the Regenerate Command
+ * Integration Tests for the Resurrect Command
  */
 
 import { describe, test, expect, beforeEach, afterEach } from "bun:test";
@@ -7,15 +7,15 @@ import { mkdtemp, rm, stat, mkdir, writeFile } from "fs/promises";
 import { join } from "path";
 import { runInit } from "../../src/commands/init";
 import {
-  runRegenerate,
-  formatRegenerate,
-} from "../../src/commands/regenerate";
+  runResurrect,
+  formatResurrect,
+} from "../../src/commands/resurrect";
 
-describe("regenerate command", () => {
+describe("resurrect command", () => {
   let testDir: string;
 
   beforeEach(async () => {
-    testDir = await mkdtemp("/tmp/rtfct-regen-test-");
+    testDir = await mkdtemp("/tmp/frank-resurrect-test-");
   });
 
   afterEach(async () => {
@@ -24,7 +24,7 @@ describe("regenerate command", () => {
 
   describe("without existing project", () => {
     test("fails if .project does not exist", async () => {
-      const result = await runRegenerate(testDir);
+      const result = await runResurrect(testDir);
 
       expect(result.success).toBe(false);
       expect(result.message).toContain("No .project/ folder found");
@@ -37,7 +37,7 @@ describe("regenerate command", () => {
     });
 
     test("requires confirmation without --yes", async () => {
-      const result = await runRegenerate(testDir);
+      const result = await runResurrect(testDir);
 
       expect(result.success).toBe(true);
       expect(result.requiresConfirmation).toBe(true);
@@ -45,7 +45,7 @@ describe("regenerate command", () => {
     });
 
     test("proceeds with --yes flag", async () => {
-      const result = await runRegenerate(testDir, { yes: true });
+      const result = await runResurrect(testDir, { yes: true });
 
       expect(result.success).toBe(true);
       expect(result.requiresConfirmation).toBeUndefined();
@@ -64,7 +64,7 @@ describe("regenerate command", () => {
       await mkdir(join(testDir, "tests"));
       await writeFile(join(testDir, "tests", "test.ts"), "// test");
 
-      const result = await runRegenerate(testDir, { yes: true });
+      const result = await runResurrect(testDir, { yes: true });
 
       expect(result.success).toBe(true);
       expect(result.deletedPaths).toContain("src/");
@@ -87,7 +87,7 @@ describe("regenerate command", () => {
       await writeFile(join(testDir, "src", "main.zig"), "// zig code");
       await writeFile(join(testDir, "build.zig"), "// build");
 
-      const result = await runRegenerate(testDir, { yes: true });
+      const result = await runResurrect(testDir, { yes: true });
 
       expect(result.success).toBe(true);
       expect(result.deletedPaths).toContain("src/");
@@ -96,7 +96,7 @@ describe("regenerate command", () => {
 
     test("handles non-existent paths gracefully", async () => {
       // Don't create src/ or tests/
-      const result = await runRegenerate(testDir, { yes: true });
+      const result = await runResurrect(testDir, { yes: true });
 
       expect(result.success).toBe(true);
       // Paths might be empty since nothing existed to delete
@@ -105,7 +105,7 @@ describe("regenerate command", () => {
     test("preserves .project directory", async () => {
       await mkdir(join(testDir, "src"));
 
-      await runRegenerate(testDir, { yes: true });
+      await runResurrect(testDir, { yes: true });
 
       // .project should still exist
       const projectStats = await stat(join(testDir, ".project"));
@@ -123,30 +123,30 @@ describe("regenerate command", () => {
     });
 
     test("formats confirmation request", async () => {
-      const result = await runRegenerate(testDir);
-      const output = formatRegenerate(result);
+      const result = await runResurrect(testDir);
+      const output = formatResurrect(result);
 
-      expect(output).toContain("Purification");
+      expect(output).toContain("Dissection");
       expect(output).toContain("Run with --yes");
     });
 
     test("formats success output", async () => {
       await mkdir(join(testDir, "src"));
 
-      const result = await runRegenerate(testDir, { yes: true });
-      const output = formatRegenerate(result);
+      const result = await runResurrect(testDir, { yes: true });
+      const output = formatResurrect(result);
 
       expect(output).toContain("✓");
-      expect(output).toContain("purified");
-      expect(output).toContain("Omnissiah");
+      expect(output).toContain("dissected");
+      expect(output).toContain("IT'S ALIVE!");
     });
 
     test("formats failure output", async () => {
       await rm(testDir, { recursive: true, force: true });
-      testDir = await mkdtemp("/tmp/rtfct-regen-test-");
+      testDir = await mkdtemp("/tmp/frank-resurrect-test-");
 
-      const result = await runRegenerate(testDir);
-      const output = formatRegenerate(result);
+      const result = await runResurrect(testDir);
+      const output = formatResurrect(result);
 
       expect(output).toContain("✗");
     });

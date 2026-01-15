@@ -12,7 +12,7 @@ describe("add command", () => {
   let testDir: string;
 
   beforeEach(async () => {
-    testDir = await mkdtemp("/tmp/rtfct-add-test-");
+    testDir = await mkdtemp("/tmp/frank-add-test-");
   });
 
   afterEach(async () => {
@@ -37,7 +37,7 @@ describe("add command", () => {
       const result = await runAdd(testDir, "zig");
 
       expect(result.success).toBe(true);
-      expect(result.message).toContain("incorporated");
+      expect(result.message).toContain("grafted");
 
       const presetDir = join(testDir, ".project", "presets", "zig");
       const stats = await stat(presetDir);
@@ -68,7 +68,7 @@ describe("add command", () => {
       const result = await runAdd(testDir, "unknown");
 
       expect(result.success).toBe(false);
-      expect(result.message).toContain("Unknown preset");
+      expect(result.message).toContain("Unknown Organ");
     });
 
     test("fails if preset already installed", async () => {
@@ -76,7 +76,7 @@ describe("add command", () => {
       const result = await runAdd(testDir, "zig");
 
       expect(result.success).toBe(false);
-      expect(result.message).toContain("already incorporated");
+      expect(result.message).toContain("already grafted");
     });
   });
 
@@ -90,8 +90,8 @@ describe("add command", () => {
       const output = formatAdd(result);
 
       expect(output).toContain("✓");
-      expect(output).toContain("incorporated");
-      expect(output).toContain("Omnissiah");
+      expect(output).toContain("grafted");
+      expect(output).toContain("IT'S ALIVE!");
     });
 
     test("formats failure message", async () => {

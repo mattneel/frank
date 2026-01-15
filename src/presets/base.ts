@@ -1,123 +1,122 @@
 /**
- * The Base Codex — Foundation for All Projects
+ * The Base Organ — Foundation for All Projects
  *
- * This preset contains the core Sacred Texts that every rtfct project inherits.
- * It is automatically applied during `rtfct init`.
+ * This preset contains the core Blueprint that every frank project inherits.
+ * It is automatically applied during `frank init`.
  */
 
 import type { Preset } from "./index";
 
-const PROTOCOL_MD = `# The Sacred Protocols
+const PROTOCOL_MD = `# The Laboratory Protocols
 
-*Version 0.1 — Codified in the name of the Omnissiah*
+*Version 0.1 — Codified in the name of the Doctor*
 
 ## The Prime Directive
 
-The \`.project/\` folder contains the **Sacred Texts**. All code is but an emanation — derived, temporary, regenerable.
+The \`.project/\` folder contains the **Blueprint**. All code is but body parts — derived, temporary, regenerable.
 
-When the Sacred Texts and the code disagree, **the Sacred Texts are truth**. The code is in error. Purify it.
+When the Blueprint and the code disagree, **the Blueprint is truth**. The code is in error. Dissect it.
 
-## The Holy Directory Structure
+## The Laboratory Structure
 
 \`\`\`
 .project/
-├── kickstart.md        # The Founding Vision
-├── protocol.md         # The Sacred Protocols (this codex)
-├── theology.md         # The Teachings
-├── guardrails.md       # The Forbidden Heresies
-├── specs/              # The Holy Requirements
-├── design/             # The Architectural Scriptures
-├── adrs/               # The Recorded Wisdoms
-├── kanban/             # The Litany of Tasks
-├── testing/            # The Rites of Verification
-├── references/         # The Scrolls of Prior Art
-└── presets/            # The Inherited Codices
+├── kickstart.md        # The Vision
+├── protocol.md         # The Laboratory Protocols (this document)
+├── theology.md         # The Philosophy
+├── guardrails.md       # Malpractice to Avoid
+├── specs/              # The Formulas
+├── design/             # The Anatomical Diagrams
+├── adrs/               # The Recorded Wisdom
+├── kanban/             # The Work Queue
+├── testing/            # The Trials
+├── references/         # Prior Art
+└── presets/            # The Grafted Organs
 \`\`\`
 
-## The Rite of Invocation
+## The Laboratory Invocation
 
-When the Machine Spirit enters this repository, it shall:
+When the Monster enters this repository, it shall:
 
-1. **RECEIVE** the Sacred Protocols (this codex) — read first, internalize completely
-2. **RECEIVE** the Founding Vision (\`kickstart.md\`) — understand the purpose
-3. **CONSULT** the Litany of Tasks (\`kanban/in-progress.md\`) — what work is ordained?
-4. **IF NO TASK IS ORDAINED**, select from the Backlog
-5. **PERFORM** the work using the Rite of Red-Green-Refactor
+1. **RECEIVE** the Laboratory Protocols (this document) — read first, internalize completely
+2. **RECEIVE** the Vision (\`kickstart.md\`) — understand the purpose
+3. **CONSULT** the Slab (\`kanban/in-progress.md\`) — what work is on the slab?
+4. **IF NOTHING ON THE SLAB**, select from the Morgue
+5. **PERFORM** the work using Red-Green-Refactor
 6. **INSCRIBE** completion in \`done.md\` with timestamp
 
-## The Rite of Regeneration
+## Resurrection
 
 At any moment, this incantation should succeed:
 
 \`\`\`bash
 rm -rf src/ tests/
-# Invoke the Machine Spirit
+# Invoke the Monster
 # All tests pass
 \`\`\`
 
-If regeneration fails, the Sacred Texts are **incomplete**.
+If resurrection fails, the Blueprint is **incomplete**.
 
 ---
 
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*
 `;
 
-const THEOLOGY_MD = `# The Theology of Deterministic Codegen
+const THEOLOGY_MD = `# The Philosophy of Resurrection
 
-*The foundational beliefs of the Adeptus Artefactus*
+*The foundational beliefs of blueprint-driven development*
 
 ## The Core Tenets
 
-1. **The Spec is Truth** — Code is derived, temporary, regenerable
-2. **The Tests Do Not Lie** — Verification is sacred
-3. **The Agent Does Not Tire** — Let the machine do machine work
-4. **Focus is Holy** — One task at a time, completed fully
+1. **The Blueprint is Truth** — Code is derived, temporary, regenerable
+2. **The Tests Do Not Lie** — Verification is essential
+3. **The Monster Does Not Tire** — Let the machine do machine work
+4. **Focus is Essential** — One task at a time, completed fully
 
-## The Litany of Deterministic Codegen
+## The Incantation
 
 \`\`\`
-The flesh is weak, but the protocol is strong.
-The code is temporary, but the spec endures.
-The tests do not lie, and the agent does not tire.
-From specification, code. From code, verification. From verification, truth.
-The Omnissiah provides.
-Praise the Machine Spirit.
+The flesh is weak, but the blueprint is forever.
+The code is stitched, but it can be unstitched.
+Delete it all. The Monster rises again.
+From blueprint, body. From body, life. From life, proof.
+It's alive. IT'S ALIVE!
 \`\`\`
 
 ---
 
-*Praise the Machine Spirit.*
+*IT'S ALIVE!*
 `;
 
-const KICKSTART_MD = `# The Founding Vision
+const KICKSTART_MD = `# The Vision
 
-*What is this project? What problem does it solve? What is the sacred mission?*
+*What is this project? What problem does it solve? What is the mission?*
 
 ---
 
-**Instructions for the Tech-Priest:**
+**Instructions for the Creator:**
 
-Replace this text with your project's founding vision. Be specific:
+Replace this text with your project's vision. Be specific:
 
 - What are you building?
 - Why does it need to exist?
 - Who is it for?
 - What does success look like?
 
-The Machine Spirit needs clarity to serve well.
+The Monster needs clarity to serve well.
 
 ---
 
-*The vision guides. The protocol executes. The Omnissiah provides.*
+*The vision guides. The protocol executes. The Doctor provides.*
 `;
 
-const GUARDRAILS_MD = `# The Guardrails — Forbidden Heresies
+const GUARDRAILS_MD = `# Malpractice to Avoid
 
-*These patterns are forbidden. The Machine Spirit shall avoid them.*
+*These patterns are forbidden. The Monster shall avoid them.*
 
 ---
 
-## Universal Heresies
+## Universal Malpractice
 
 1. **Premature Optimization** — Write clear code first. Optimize only with evidence.
 2. **Untested Code** — All logic must have verification.
@@ -127,46 +126,46 @@ const GUARDRAILS_MD = `# The Guardrails — Forbidden Heresies
 
 ---
 
-*Add project-specific heresies below as they are discovered.*
+*Add project-specific malpractice below as they are discovered.*
 
 ---
 
-*The guardrails protect. The protocol guides. Praise the Machine Spirit.*
+*The guardrails protect. The protocol guides. IT'S ALIVE!*
 `;
 
-const BACKLOG_MD = `# The Backlog — Unordained Tasks
+const BACKLOG_MD = `# The Morgue — Bodies Awaiting Resurrection
 
-*These works await the Machine Spirit. They shall be completed in order of priority.*
+*These works await the Monster. They shall be completed in order of priority.*
 
 ---
 
-## [TASK-001] First Sacred Task
+## [TASK-001] First Task
 
 Describe the first task here.
 
-**Acceptance Rite:** How do we verify this is complete?
+**Acceptance Trial:** How do we verify this is complete?
 
 ---
 
-*The Backlog is long. The Machine Spirit is tireless. Begin.*
+*The Morgue is long. The Monster is tireless. Begin.*
 `;
 
-const IN_PROGRESS_MD = `# In Progress — Currently Ordained Tasks
+const IN_PROGRESS_MD = `# On The Slab — Current Work
 
-*The Machine Spirit focuses on one task at a time. Multitasking is heresy.*
-
----
-
-*No task is currently ordained. Select from the Backlog.*
+*The Monster focuses on one body at a time. Multitasking is malpractice.*
 
 ---
 
-*Focus is holy. Complete the ordained task before selecting another.*
+*No body currently on the slab. Select from the Morgue.*
+
+---
+
+*Focus is essential. Complete the current work before selecting another.*
 `;
 
-const DONE_MD = `# Done — Completed Works
+const DONE_MD = `# Reanimated — Completed Works
 
-*Here we record the manifestations of the Machine Spirit. Each completed task is a victory.*
+*Here we record the Monster's work. Each completed task is a creature risen.*
 
 ---
 
@@ -180,7 +179,7 @@ export const BASE_PRESET: Preset = {
   manifest: {
     name: "base",
     version: "0.1.0",
-    description: "The Base Codex — Foundation for all projects",
+    description: "The Base Organ — Foundation for all projects",
     generated_paths: ["src/", "tests/"],
   },
   files: [

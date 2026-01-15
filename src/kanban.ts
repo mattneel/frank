@@ -16,22 +16,34 @@ export interface KanbanFileResult {
 }
 
 /**
+ * Remove code blocks from content to avoid matching inside them.
+ */
+const stripCodeBlocks = (content: string): string => {
+  // Remove fenced code blocks (``` or ~~~)
+  return content.replace(/^(`{3,}|~{3,}).*$[\s\S]*?^\1\s*$/gm, "");
+};
+
+/**
  * Count the number of tasks in a kanban markdown file.
  * Tasks are identified by ## [TASK-NNN] headers.
+ * Ignores tasks inside code blocks.
  */
 export const countTasks = (content: string): number => {
+  const stripped = stripCodeBlocks(content);
   const taskPattern = /^## \[TASK-\d+\]/gm;
-  const matches = content.match(taskPattern);
+  const matches = stripped.match(taskPattern);
   return matches ? matches.length : 0;
 };
 
 /**
  * Extract the current task from an in-progress kanban file.
  * Returns the first task found, or null if none.
+ * Ignores tasks inside code blocks.
  */
 export const extractCurrentTask = (content: string): Task | null => {
+  const stripped = stripCodeBlocks(content);
   const taskPattern = /^## \[(TASK-\d+)\]\s+(.+)$/m;
-  const match = content.match(taskPattern);
+  const match = stripped.match(taskPattern);
 
   if (!match) {
     return null;

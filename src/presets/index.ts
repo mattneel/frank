@@ -1,7 +1,7 @@
 /**
- * The Preset System — Codex Resolution and Installation
+ * The Preset System — Organ Resolution and Installation
  *
- * Resolves preset names to Codex content and writes them to projects.
+ * Resolves preset names to Organ content and writes them to projects.
  */
 
 import { mkdir, writeFile } from "fs/promises";
@@ -63,18 +63,18 @@ export const resolvePresetSync = (name: string): ResolveResult => {
 
   return {
     success: false,
-    error: `Unknown built-in preset: ${name}. Available: base, zig, typescript, elixir`,
+    error: `Unknown built-in Organ: ${name}. Available: base, zig, typescript, elixir`,
   };
 };
 
 /**
  * Resolve a preset name to a Preset object.
- * Supports built-in presets, GitHub presets (owner/repo), and local presets.
+ * Supports built-in Organs, GitHub Organs (owner/repo), and local Organs.
  */
 export const resolvePreset = async (name: string): AsyncResolveResult => {
   const lowerName = name.toLowerCase();
 
-  // Check built-in presets first
+  // Check built-in Organs first
   if (lowerName in BUILT_IN_PRESETS) {
     return {
       success: true,
@@ -86,11 +86,11 @@ export const resolvePreset = async (name: string): AsyncResolveResult => {
   if (name.startsWith("./") || name.startsWith("/")) {
     return {
       success: false,
-      error: `Local presets not yet supported: ${name}`,
+      error: `Local Organs not yet supported: ${name}`,
     };
   }
 
-  // Check for GitHub preset format (owner/repo or owner/repo@branch)
+  // Check for GitHub Organ format (owner/repo or owner/repo@branch)
   if (name.includes("/")) {
     const ref = parseGitHubRef(name);
     if (ref) {
@@ -98,13 +98,13 @@ export const resolvePreset = async (name: string): AsyncResolveResult => {
     }
     return {
       success: false,
-      error: `Invalid GitHub preset format: ${name}. Use "owner/repo" or "owner/repo@branch".`,
+      error: `Invalid GitHub Organ format: ${name}. Use "owner/repo" or "owner/repo@branch".`,
     };
   }
 
   return {
     success: false,
-    error: `Unknown preset: ${name}. Available: base, zig, typescript, elixir, or use owner/repo for GitHub presets.`,
+    error: `Unknown Organ: ${name}. Available: base, zig, typescript, elixir, or use owner/repo for GitHub Organs.`,
   };
 };
 

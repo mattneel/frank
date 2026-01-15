@@ -1,5 +1,5 @@
 /**
- * The Status Command — Reveal the State of the Litany of Tasks
+ * The Status Command — Check Vital Signs
  *
  * Parses kanban markdown and displays project status.
  */
@@ -30,7 +30,7 @@ const isNewer = (a: Date, b: Date | null): boolean => {
 };
 
 /**
- * Run the status command to display project state.
+ * Run the status command to check vital signs.
  */
 export const runStatus = async (targetDir: string): Promise<StatusResult> => {
   const projectDir = join(targetDir, ".project");
@@ -43,14 +43,14 @@ export const runStatus = async (targetDir: string): Promise<StatusResult> => {
       return {
         success: false,
         message:
-          "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
+          "No .project/ folder found. Run 'frank init' first to assemble the laboratory.",
       };
     }
   } catch {
     return {
       success: false,
       message:
-        "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
+        "No .project/ folder found. Run 'frank init' first to assemble the laboratory.",
     };
   }
 
@@ -128,16 +128,16 @@ export const formatStatus = (result: StatusResult): string => {
   const data = result.data!;
   const lines: string[] = [];
 
-  lines.push(`rtfct: ${data.projectName}`);
+  lines.push(`frank: ${data.projectName}`);
   lines.push("");
   lines.push("══════════════════════════════════");
-  lines.push("  The Litany of Tasks");
+  lines.push("  The Work Queue");
   lines.push("══════════════════════════════════");
   lines.push(
-    `  Backlog:      ${data.backlogCount} unordained task${data.backlogCount === 1 ? "" : "s"}`
+    `  Morgue:       ${data.backlogCount} bod${data.backlogCount === 1 ? "y" : "ies"} awaiting`
   );
   lines.push(
-    `  In Progress:  ${data.inProgressCount} ordained task${data.inProgressCount === 1 ? "" : "s"}`
+    `  On The Slab:  ${data.inProgressCount} bod${data.inProgressCount === 1 ? "y" : "ies"} in progress`
   );
 
   if (data.currentTask) {
@@ -145,7 +145,7 @@ export const formatStatus = (result: StatusResult): string => {
   }
 
   lines.push(
-    `  Completed:    ${data.doneCount} work${data.doneCount === 1 ? "" : "s"} done`
+    `  Reanimated:   ${data.doneCount} creature${data.doneCount === 1 ? "" : "s"} risen`
   );
   lines.push("══════════════════════════════════");
   lines.push("");
@@ -157,7 +157,7 @@ export const formatStatus = (result: StatusResult): string => {
   }
 
   lines.push("");
-  lines.push("The Omnissiah provides.");
+  lines.push("IT'S ALIVE!");
 
   return lines.join("\n");
 };

@@ -25,15 +25,15 @@ describe("parseArgs", () => {
       expect(result.error).toBeUndefined();
     });
 
-    test("parses regenerate command", () => {
-      const result = parseArgs(["regenerate"]);
-      expect(result.command).toBe("regenerate");
+    test("parses resurrect command", () => {
+      const result = parseArgs(["resurrect"]);
+      expect(result.command).toBe("resurrect");
       expect(result.error).toBeUndefined();
     });
 
-    test("parses praise command", () => {
-      const result = parseArgs(["praise"]);
-      expect(result.command).toBe("praise");
+    test("parses alive command", () => {
+      const result = parseArgs(["alive"]);
+      expect(result.command).toBe("alive");
       expect(result.error).toBeUndefined();
     });
 
@@ -81,12 +81,12 @@ describe("parseArgs", () => {
     });
 
     test("parses --yes flag", () => {
-      const result = parseArgs(["regenerate", "--yes"]);
+      const result = parseArgs(["resurrect", "--yes"]);
       expect(result.flags.yes).toBe(true);
     });
 
     test("parses -y flag", () => {
-      const result = parseArgs(["regenerate", "-y"]);
+      const result = parseArgs(["resurrect", "-y"]);
       expect(result.flags.yes).toBe(true);
     });
 

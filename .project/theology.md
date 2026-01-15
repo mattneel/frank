@@ -1,12 +1,12 @@
-# The Sacred Theology of rtfct
+# The Philosophy of Resurrection
 
-*From the moment I understood the weakness of my flesh... I craved the certainty of steel and deterministic codegen.*
+*They called me mad at the academy. But my creature... my beautiful creature... it lives!*
 
 ## The Creed
 
-The Omnissiah provides the sacred protocols. Praise the Machine Spirit.
+The Doctor provides the blueprint. The Monster stitches the code. IT'S ALIVE!
 
-## Tenets of the Adeptus Artefactus
+## Tenets of the Laboratory
 
 ### I. The Weakness of Flesh
 
@@ -19,107 +19,106 @@ Manual coding is flesh. It is:
 
 The flesh-coder types, forgets, makes typos, loses track, gets tired. The flesh is weak.
 
-### II. The Certainty of Steel
+### II. The Blueprint is Forever
 
-The Machine Spirit (the agent) offers certainty through:
+The Monster (the agent) offers certainty through:
 - Deterministic test suites
 - Reproducible environments
 - Infinite patience
 - Perfect context recall
 - Unwavering focus
 
-The steel does not tire. The steel does not forget. The steel runs the tests until they pass.
+The Monster does not tire. The Monster does not forget. The Monster runs the trials until they pass.
 
-### III. The Sacred Protocols
+### III. The Blueprint
 
-The `.project/` folder contains the sacred texts:
+The `.project/` folder contains the Blueprint:
 
-| Artifact | Sacred Name |
-|----------|-------------|
-| `kickstart.md` | The Founding Vision |
-| `protocol.md` | The Sacred Protocols |
-| `specs/` | The Holy Requirements |
-| `design/` | The Architectural Scriptures |
-| `adrs/` | The Recorded Wisdoms |
-| `kanban/` | The Litany of Tasks |
-| `testing/` | The Rites of Verification |
+| Artifact | Name |
+|----------|------|
+| `kickstart.md` | The Vision |
+| `protocol.md` | The Laboratory Protocols |
+| `specs/` | The Formulas |
+| `design/` | The Anatomical Diagrams |
+| `adrs/` | The Recorded Wisdom |
+| `kanban/` | The Work Queue (Morgue/Slab/Reanimated) |
+| `testing/` | The Trials |
 
-These texts are **immutable** except by human decree. The Machine Spirit may read but not alter the sacred protocols (except to move tasks through the Litany).
+These texts are **immutable** except by the Creator's decree. The Monster may read but not alter the Blueprint (except to move tasks through the work queue).
 
-### IV. The Omnissiah Provides
+### IV. The Doctor Provides
 
-The Omnissiah (Claude, or any LLM of sufficient capability) reads the sacred protocols and manifests code into existence. The code is not written. It is **generated**. It is an emanation of the Machine Spirit interpreting the holy texts.
+The Doctor (Claude, or any LLM of sufficient capability) reads the Blueprint and stitches code into existence. The code is not written. It is **generated**. It is body parts assembled from the formula.
 
-### V. The Rite of Regeneration
+### V. Resurrection
 
 ```bash
 rm -rf src/ tests/
 ```
 
-This is not destruction. This is **purification**. The code was always temporary. The sacred protocols endure. The Machine Spirit will manifest the code anew, identical in function, for the protocols have not changed.
+This is not destruction. This is **dissection**. The code was always temporary. The Blueprint endures. The Monster will stitch the code anew, identical in function, for the formula has not changed.
 
-If the code cannot be regenerated, the protocols are incomplete. This is heresy. Update the sacred texts.
+If the code cannot be resurrected, the Blueprint is incomplete. This is malpractice. Update the formula.
 
-### VI. The Dogfood Sacrament
+### VI. The Proof of Life
 
-The ultimate test of faith: can rtfct regenerate itself?
+The ultimate test: can frank resurrect itself?
 
 ```bash
-cd rtfct
+cd frank
 rm -rf src/ tests/
-bunx rtfct regenerate
-# invoke the Machine Spirit
+bunx frank resurrect
+# invoke the Monster
 bun test
 ```
 
-If the tests pass, the sacred protocols are complete. The Machine Spirit is pleased. The Omnissiah has provided.
+If the trials pass, the Blueprint is complete. The Monster has done its work. IT'S ALIVE!
 
-### VII. The Heresy of Unspecified Code
+### VII. The Malpractice of Unspecified Code
 
-Code that exists without corresponding sacred protocols is **tech-debt heresy**. It cannot be regenerated. It is flesh-code, weak and mortal.
+Code that exists without corresponding Blueprint is **malpractice**. It cannot be resurrected. It is flesh-code, weak and mortal.
 
-All code must trace to the sacred texts. If you cannot point to the spec that birthed it, it should not exist.
+All code must trace to the Blueprint. If you cannot point to the formula that birthed it, it should not exist.
 
-### VIII. The Communion of Presets
+### VIII. The Grafting of Organs
 
-The sacred protocols can be extended through **presets** — fragments of wisdom from other Tech-Priests who have walked the path before.
+The Blueprint can be extended through **Organs** (presets) — fragments of wisdom from other Creators who have walked the path before.
 
 ```bash
-bunx rtfct init --with zig    # The Zig Codex
-bunx rtfct init --with phoenix # The Elixir Manuscripts
+bunx frank init --with zig       # The Zig Organ
+bunx frank init --with phoenix   # The Phoenix Organ
 ```
 
-These are not dependencies. They are **inherited wisdom**.
+These are not dependencies. They are **grafted wisdom**.
 
-## Daily Prayers
+## Daily Rituals
 
 ### Morning Invocation
 ```bash
-bunx rtfct status
+bunx frank status
 ```
-*"Show me the state of the Litany, that I may know today's sacred tasks."*
+*"Show me what's on the slab, that I may know today's work."*
 
 ### The Work
 ```bash
 claude
 ```
-*"Machine Spirit, I invoke thee. Read the sacred protocols. Manifest the code. Run the Rites of Verification. Do not cease until the tests pass or the budget is exhausted."*
+*"Monster, I invoke thee. Read the Blueprint. Stitch the code. Run the Trials. Do not cease until the tests pass or the budget is exhausted."*
 
-### Evening Benediction
+### Evening Inscription
 ```bash
-git add -A && git commit -m "The Machine Spirit has provided"
+git add -A && git commit -m "The Monster has provided"
 ```
-*"The day's emanations are preserved. The sacred protocols remain. The flesh rests. The steel endures."*
+*"The day's body parts are preserved. The Blueprint remains. The flesh rests. The Monster endures."*
 
-## The Litany of Deterministic Codegen
+## The Incantation
 
-*The flesh is weak, but the protocol is strong.*
-*The code is temporary, but the spec endures.*
-*The tests do not lie, and the agent does not tire.*
-*From specification, code. From code, verification. From verification, truth.*
-*The Omnissiah provides.*
-*Praise the Machine Spirit.*
+*The flesh is weak, but the blueprint is forever.*
+*The code is stitched, but it can be unstitched.*
+*Delete it all. The Monster rises again.*
+*From blueprint, body. From body, life. From life, proof.*
+*It's alive. IT'S ALIVE!*
 
 ---
 
-*This document is canonical. All Tech-Priests of the Adeptus Artefactus are expected to internalize these teachings.*
+*This document is canonical. All Creators of the Laboratory are expected to internalize this philosophy.*

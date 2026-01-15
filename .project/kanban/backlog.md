@@ -1,7 +1,7 @@
-# The Backlog — Unordained Tasks
+# The Morgue — Bodies Awaiting Resurrection
 
-*These works await the Machine Spirit. They shall be completed in order of priority.*
+*These works await the Monster. They shall be completed in order of priority.*
 
 ---
 
-*The Backlog is empty. All ordained tasks are complete or in progress.*
+*The Morgue is empty. All bodies are on the slab or reanimated.*

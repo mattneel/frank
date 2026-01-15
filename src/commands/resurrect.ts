@@ -1,18 +1,18 @@
 /**
- * The Regenerate Command — Purify the Codebase
+ * The Resurrect Command — Dissect the Codebase
  *
- * Deletes generated paths in preparation for regeneration.
+ * Deletes generated paths in preparation for resurrection.
  */
 
 import { rm, stat } from "fs/promises";
 import { join } from "path";
 import { collectGeneratedPaths } from "../manifest";
 
-export interface RegenerateOptions {
+export interface ResurrectOptions {
   yes?: boolean;
 }
 
-export interface RegenerateResult {
+export interface ResurrectResult {
   success: boolean;
   message: string;
   deletedPaths?: string[];
@@ -21,12 +21,12 @@ export interface RegenerateResult {
 }
 
 /**
- * Run the regenerate command to purify the codebase.
+ * Run the resurrect command to dissect the codebase.
  */
-export const runRegenerate = async (
+export const runResurrect = async (
   targetDir: string,
-  options: RegenerateOptions = {}
-): Promise<RegenerateResult> => {
+  options: ResurrectOptions = {}
+): Promise<ResurrectResult> => {
   const projectDir = join(targetDir, ".project");
 
   // Check if .project/ exists
@@ -36,14 +36,14 @@ export const runRegenerate = async (
       return {
         success: false,
         message:
-          "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
+          "No .project/ folder found. Run 'frank init' first to assemble the laboratory.",
       };
     }
   } catch {
     return {
       success: false,
       message:
-        "No .project/ folder found. Run 'rtfct init' first to consecrate the project.",
+        "No .project/ folder found. Run 'frank init' first to assemble the laboratory.",
     };
   }
 
@@ -74,24 +74,24 @@ export const runRegenerate = async (
 
   return {
     success: true,
-    message: "The codebase has been purified.",
+    message: "The codebase has been dissected.",
     deletedPaths,
   };
 };
 
 /**
- * Format the regenerate result for CLI output.
+ * Format the resurrect result for CLI output.
  */
-export const formatRegenerate = (result: RegenerateResult): string => {
+export const formatResurrect = (result: ResurrectResult): string => {
   if (!result.success) {
     return `✗ ${result.message}`;
   }
 
   if (result.requiresConfirmation) {
     const lines: string[] = [];
-    lines.push("⚠ The Rite of Purification");
+    lines.push("⚠ The Dissection");
     lines.push("");
-    lines.push("The following paths will be purified:");
+    lines.push("The following paths will be dissected:");
     for (const path of result.pathsToDelete || []) {
       lines.push(`  - ${path}`);
     }
@@ -105,18 +105,18 @@ export const formatRegenerate = (result: RegenerateResult): string => {
   lines.push("");
 
   if (result.deletedPaths && result.deletedPaths.length > 0) {
-    lines.push("Purified paths:");
+    lines.push("Dissected paths:");
     for (const path of result.deletedPaths) {
       lines.push(`  - ${path}`);
     }
   } else {
-    lines.push("No paths were purified (already clean).");
+    lines.push("No paths were dissected (already clean).");
   }
 
   lines.push("");
-  lines.push("Invoke the Machine Spirit to regenerate.");
+  lines.push("Invoke the Monster to resurrect.");
   lines.push("");
-  lines.push("The Omnissiah provides.");
+  lines.push("IT'S ALIVE!");
 
   return lines.join("\n");
 };

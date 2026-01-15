@@ -11,7 +11,7 @@ describe("init command", () => {
   let testDir: string;
 
   beforeEach(async () => {
-    testDir = await mkdtemp("/tmp/rtfct-init-test-");
+    testDir = await mkdtemp("/tmp/frank-init-test-");
   });
 
   afterEach(async () => {
@@ -174,8 +174,8 @@ describe("init command", () => {
       const output = formatInit(result);
 
       expect(output).toContain("✓");
-      expect(output).toContain("consecrated");
-      expect(output).toContain("Omnissiah");
+      expect(output).toContain("assembled");
+      expect(output).toContain("IT'S ALIVE!");
     });
 
     test("formats failure message", async () => {

@@ -1,7 +1,7 @@
 /**
- * The Init Command — Consecrate a New Project
+ * The Init Command — Assemble a New Laboratory
  *
- * Creates the .project/ folder structure with Sacred Texts.
+ * Creates the .project/ folder structure with the Blueprint.
  */
 
 import { mkdir, writeFile, rm, stat } from "fs/promises";
@@ -20,7 +20,7 @@ export interface InitResult {
 }
 
 /**
- * Run the init command to consecrate a project.
+ * Run the init command to assemble a laboratory.
  */
 export const runInit = async (
   targetDir: string,
@@ -33,13 +33,13 @@ export const runInit = async (
     const stats = await stat(projectDir);
     if (stats.isDirectory()) {
       if (options.force) {
-        // Purify existing .project/
+        // Dissect existing .project/
         await rm(projectDir, { recursive: true });
       } else {
         return {
           success: false,
           message:
-            "The .project/ folder already exists. Use --force to purify and recreate.",
+            "The .project/ folder already exists. Use --force to dissect and recreate.",
         };
       }
     }
@@ -63,7 +63,7 @@ export const runInit = async (
     await mkdir(dir, { recursive: true });
   }
 
-  // Write the Sacred Texts from the Base Codex
+  // Write the Blueprint from the Base Organ
   for (const file of BASE_PRESET.files) {
     const filePath = join(projectDir, file.path);
     const fileDir = join(filePath, "..");
@@ -71,7 +71,7 @@ export const runInit = async (
     await writeFile(filePath, file.content);
   }
 
-  // Install the Base Codex as a preset (for manifest tracking)
+  // Install the Base Organ as a preset (for manifest tracking)
   await writePreset(targetDir, BASE_PRESET);
 
   // Handle presets if specified
@@ -91,14 +91,14 @@ export const runInit = async (
     return {
       success: true,
       message:
-        "Project consecrated with warnings. Some presets failed to install.",
+        "Laboratory assembled with warnings. Some Organs failed to graft.",
       presetErrors,
     };
   }
 
   return {
     success: true,
-    message: "Project consecrated. The Sacred Texts have been inscribed.",
+    message: "Laboratory assembled. The Blueprint has been inscribed.",
   };
 };
 
@@ -111,14 +111,14 @@ export const formatInit = (result: InitResult): string => {
   if (result.success) {
     lines.push("✓ " + result.message);
     lines.push("");
-    lines.push("The Omnissiah provides.");
+    lines.push("IT'S ALIVE!");
   } else {
     lines.push("✗ " + result.message);
   }
 
   if (result.presetErrors && result.presetErrors.length > 0) {
     lines.push("");
-    lines.push("Preset warnings:");
+    lines.push("Organ warnings:");
     for (const error of result.presetErrors) {
       lines.push("  - " + error);
     }

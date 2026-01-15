@@ -1,10 +1,10 @@
 {
-  "name": "rtfct",
+  "name": "frnknstn",
   "version": "0.1.0",
-  "description": "Markdown-driven development. The spec is the source of truth. Code is a regenerable artefact.",
+  "description": "Blueprint-driven development. The spec is the formula. Code is just body parts.",
   "type": "module",
   "bin": {
-    "rtfct": "./src/index.ts"
+    "frank": "./src/index.ts"
   },
   "scripts": {
     "build": "bun build ./src/index.ts --outdir ./dist --target node",
@@ -13,14 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mattneel/rtfct.git"
+    "url": "https://github.com/mattneel/frnknstn.git"
   },
   "keywords": [
     "cli",
     "markdown",
     "tdd",
     "codegen",
-    "specification"
+    "specification",
+    "blueprint",
+    "frankenstein"
   ],
   "author": "mattneel",
   "license": "MIT",
