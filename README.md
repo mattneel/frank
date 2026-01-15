@@ -1,4 +1,4 @@
-# $FRANK
+# FRANK
 
 *They called me mad. They called my methods unsound. But when I delete all my code and it rises again from pure specification... who's mad now?*
 
