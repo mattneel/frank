@@ -60,6 +60,31 @@ h2 {
   text-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
 }
 
+.token-ca {
+  font-size: 0.875rem;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+}
+
+.token-ca span {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.token-ca code {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Mono', monospace;
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.token-ca a {
+  text-decoration: none;
+}
+
+.token-ca a:hover code {
+  color: var(--accent);
+}
+
 .tagline {
   font-size: 1.5rem;
   color: var(--text-dim);
